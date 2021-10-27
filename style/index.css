@@ -1,0 +1,107 @@
+html {
+  font-family: assistant;
+  overflow: hidden;
+}
+body {
+  overflow: hidden;
+  width: 1920px;
+  height: 1080px;
+  background: rgb(27, 27, 27);
+}
+.grid {
+  width: 120px;
+  height: 120px;
+  outline: 0.5px solid rgba(255, 255, 255, 0.123);
+}
+.grid:hover {
+  cursor: pointer;
+}
+.row {
+  display: flex;
+}
+#render {
+  position: fixed;
+}
+#directory-widget {
+  color: white;
+  display: grid;
+
+  background: #2a9d8f;
+}
+.widget {
+  display: flex;
+  flex-direction: column;
+
+  font-size: 1.2rem;
+  position: fixed;
+}
+.img-map {
+  outline: 1px solid #eee;
+}
+.nav {
+  position: absolute;
+  width: 1920px;
+  height: 120px;
+  bottom: 0px;
+  background: #264653;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#nav-name {
+  font-size: 2rem;
+  color: white;
+}
+area:hover {
+  cursor: pointer;
+}
+.p3 {
+  padding: 0.5em;
+}
+#inner-render {
+  pointer-events: none;
+  width: 1920px;
+  height: 960px;
+  position: fixed;
+}
+.draggable {
+  cursor: move;
+  cursor: grab;
+}
+.draggable:active {
+  cursor: grabbing;
+}
+.widget-style {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.widget-style:hover {
+  cursor: pointer;
+}
+#styling-settings {
+  border-radius: 4px;
+  display: none;
+  position: fixed;
+  width: 240px;
+  height: 240px;
+  background: rgba(255, 255, 255, 0.719);
+  top: 50%;
+  left: 50%;
+  margin-top: -120px;
+  margin-left: -120px;
+}
+.right-corner {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.right-corner:hover {
+  cursor: pointer;
+}
+.style-group {
+  padding: 0.5em;
+}
+#image-widget {
+  background: white;
+}

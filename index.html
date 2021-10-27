@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./jquery.js"></script>
+    <link
+      rel="stylesheet"
+      href="./scripts/jquery-ui-1.13.0.custom/jquery-ui.min.css"
+    />
+    <script src="./scripts/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
+    <script src="./scripts/jquery.ui.touch-punch.min.js"></script>
+    <script src="./scripts/jquery.maphilight.min.js"></script>
+    <script src="./scripts/renderer.js"></script>
+    <link rel="stylesheet" href="./style/reset.css" />
+    <script src="https://use.fontawesome.com/f1f09572a8.js"></script>
+    <link rel="stylesheet" href="./style/index.css" />
+  </head>
+  <body>
+    <div id="render">
+      <div id="inner-render"></div>
+    </div>
+    <div class="nav">
+      <div class="" id="styling-settings">
+        <div class="style-group">
+          <i class="close-settings right-corner fa fa-times"></i>
+          <label>Font Color</label>
+          <input class="font-color" type="color" />
+        </div>
+        <div class="style-group">
+          <label>Background Color</label>
+          <input class="bg-color" type="color" />
+        </div>
+      </div>
+      <div class="widget" id="directory-widget">
+        <div class="p3">
+          <h1>This is a widget</h1>
+          <i class="widget-style fa fa-cog"></i>
+          <h3>Drag me around!</h3>
+          <h3>Width: <span id="widget-width"></span></h3>
+          <h3>Height: <span id="widget-height"></span></h3>
+        </div>
+      </div>
+      <div id="image-widget" class="widget">
+        <i class="widget-style fa fa-cog"></i>
+      </div>
+
+      <div id="sitemap-widget" class="widget">
+        <img class="img-map" src="./resources/images/fp.png" usemap="#map" />
+        <map name="map">
+          <area
+            shape="poly"
+            coords="112,314,166,315,165,269,118,269,114,288,111,289"
+            nohref="nohref"
+          />
+          <area
+            shape="poly"
+            coords="73,356,78,333,79,300,72,294,20,294,20,357"
+            nohref="nohref"
+          />
+          <area shape="rect" coords="111,319,166,365" nohref="nohref" />
+          <area
+            shape="poly"
+            coords="73,361,22,361,21,361,20,406,79,405,79,394,78,383"
+            nohref="nohref"
+          />
+        </map>
+      </div>
+      `
+      <h1 id="nav-name">This is the nav widget</h1>
+    </div>
+  </body>
+</html>
