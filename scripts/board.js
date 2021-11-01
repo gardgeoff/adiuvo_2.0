@@ -23,18 +23,10 @@ $(function () {
 
   function frito(draggable, resizable) {
     if (draggable) {
-      $(".draggable").draggable({
-        grid: [30, 30],
-        containment: ".board-content"
-      });
+      $(".draggable").draggable({});
     }
     if (resizable) {
-      $(".resizable").resizable({
-        grid: 30,
-        containment: ".board-content",
-
-        resize: function (e, element) {}
-      });
+      $(".resizable").resizable({});
     }
   }
 
@@ -66,6 +58,58 @@ $(function () {
       frito(true, true);
     }
   });
+  window.api.receive("fromMain", (data) => {
+    console.log(data);
+    if (data.task == "create") {
+      let newWidget = `
+      <div
+        style="
+        width: 120px; 
+        height:120px;
+        position:absolute;
+        top: 0px;
+        left: 0px;
+        background:#09527f;
+        color:white;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        "
+        class="widget"
+      >Widget 1</div>
+    `;
+      $(".board-content").append(newWidget);
+    } else if (data.task == "move") {
+      $(".widget")
+        .draggable({
+          grid: [30, 30],
+          containment: ".board-content"
+        })
+        .resizable({
+          grid: 30,
+          containment: ".board-content",
 
+          resize: function (e, element) {}
+        });
+      $(".widget").draggable("enable").resizable("enable");
+    } else if (data.task == "lockMove") {
+      console.log("lock it down!");
+      $(".widget").draggable("disable").resizable("disable");
+    }
+  });
   $(".img-map").maphilight();
 });
+{
+  /* <div
+style="
+width: 120px; 
+height:120px;
+position:absolute;
+top: 0px;
+left: 0px;
+
+display: inline-block
+"
+class="widget resizable draggable"
+><img style="width:100%;" src="./resources/images/AdiuvoLogo.png"></div> */
+}

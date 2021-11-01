@@ -1,0 +1,71 @@
+* {
+  font-family: assistant;
+}
+p {
+  margin: 0;
+}
+button:focus {
+  outline: none;
+}
+body {
+  background: rgb(247, 247, 247);
+  height: 150px;
+}
+.toolbar-shell {
+  height: 180px;
+}
+.titlebar {
+  padding-left: 1em;
+  padding-right: 1em;
+
+  -webkit-app-region: drag;
+  background: #09527f;
+  color: white;
+  align-items: center;
+}
+.titlebar:hover {
+  cursor: pointer;
+}
+
+.titlebar:active {
+  cursor: grabbing;
+}
+.toolbar-btn {
+  width: 150px;
+  height: 60px;
+  margin: 5px;
+}
+.toolbar-content {
+  align-items: center;
+  height: 150px;
+}
+#close-toolbar {
+  -webkit-app-region: no-drag;
+}
+
+#close-toolbar:hover {
+  cursor: pointer;
+}
+.btn-blue {
+  background: #09527f;
+  color: white;
+}
+.btn-blue:hover {
+  color: #09527f;
+  border: 1px solid #09527f;
+  background: none;
+}
+.widget-choice {
+  display: none;
+  width: 120px;
+}
+.return-home {
+  position: fixed;
+  display: none;
+  top: 35px;
+  color: #09527f;
+  font-size: 2rem;
+}
+.return-home:hover {
+  cursor: pointer;
+}
