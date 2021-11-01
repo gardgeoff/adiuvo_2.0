@@ -24,7 +24,9 @@
   bottom: 0px;
   width: 1920px;
   height: 120px;
-  background: white;
+  background: #09527f;
+  color: white;
+  font-size: 40px;
 }
 .ui-icon-gripsmall-diagonal-se {
   border-right: 2px solid white;
