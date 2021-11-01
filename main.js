@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu } = require("electron");
 
 const path = require("path");
 
@@ -16,7 +16,32 @@ const template = [
     ]
   }
 ];
+function createToolBar() {
+  let toolBar = new BrowserWindow({
+    width: 600,
+    height: 360,
+    frmae: false,
+    autoHideMenuBar: true
+  });
+  toolbar.loadFile("toolbar.html");
+}
 function createWindow() {
+  Menu.setApplicationMenu(
+    Menu.buildFromTemplate([
+      {
+        role: "appMenu",
+        submenu: [
+          {
+            label: "reset",
+            click() {
+              app.relaunch();
+              app.exit();
+            }
+          }
+        ]
+      }
+    ])
+  );
   const win = new BrowserWindow({
     width: 1920,
     height: 1080,
@@ -28,6 +53,7 @@ function createWindow() {
   });
   win.loadFile("index.html");
 }
+
 app.whenReady().then(() => {
   createWindow();
 });
