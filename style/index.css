@@ -2,106 +2,92 @@ html {
   font-family: assistant;
   overflow: hidden;
 }
+input[type="text"],
+input[type="password"],
+textarea,
+button,
+select {
+  outline: none;
+}
+.white {
+  color: white;
+}
+*:focus {
+  outline: none;
+}
 body {
   overflow: hidden;
+  background: rgb(255, 255, 255);
   width: 1920px;
   height: 1080px;
-  background: rgb(27, 27, 27);
 }
-.grid {
-  width: 120px;
-  height: 120px;
-  outline: 0.5px solid rgba(255, 255, 255, 0.123);
-}
-.grid:hover {
-  cursor: pointer;
-}
-.row {
-  display: flex;
-}
+
 #render {
   position: fixed;
 }
-#directory-widget {
-  color: white;
-  display: grid;
-
-  background: #2a9d8f;
-}
-.widget {
-  display: flex;
-  flex-direction: column;
-
-  font-size: 1.2rem;
+#splash-container {
   position: fixed;
+  width: 100%;
+  height: 100%;
 }
-.img-map {
-  outline: 1px solid #eee;
+
+#splash-logo {
+  display: none;
 }
-.nav {
-  position: absolute;
-  width: 1920px;
-  height: 120px;
-  bottom: 0px;
-  background: #264653;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#nav-name {
-  font-size: 2rem;
-  color: white;
-}
-area:hover {
-  cursor: pointer;
-}
-.p3 {
-  padding: 0.5em;
-}
-#inner-render {
-  pointer-events: none;
-  width: 1920px;
-  height: 960px;
-  position: fixed;
-}
-.draggable {
-  cursor: move;
-  cursor: grab;
-}
-.draggable:active {
-  cursor: grabbing;
-}
-.widget-style {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
-.widget-style:hover {
-  cursor: pointer;
-}
-#styling-settings {
-  border-radius: 4px;
+#verify-container {
   display: none;
   position: fixed;
-  width: 240px;
-  height: 240px;
-  background: rgba(255, 255, 255, 0.719);
-  top: 50%;
-  left: 50%;
-  margin-top: -120px;
-  margin-left: -120px;
+
+  width: 100%;
+  height: 100%;
 }
-.right-corner {
-  position: absolute;
-  top: 5px;
-  right: 5px;
+#board-type-container {
+  display: none;
+  position: fixed;
+
+  width: 100%;
+  height: 100%;
 }
-.right-corner:hover {
-  cursor: pointer;
+.logo-lg {
+  width: 50%;
 }
-.style-group {
-  padding: 0.5em;
+.logo-sm {
+  width: 25%;
 }
-#image-widget {
-  background: white;
+.custom-input {
+  height: 60px;
+  border: 0.5px solid rgba(0, 0, 0, 0.192);
+  border-radius: 10px;
+  padding: 10px;
+}
+.btn-blue {
+  background: #09527f;
+  color: white;
+}
+.btn-blue:hover {
+  color: #09527f;
+  border: 1px solid #09527f;
+  background: none;
+}
+.lds-dual-ring {
+  display: inline-block;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #09527f;
+  border-color: #09527f transparent #09527f transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

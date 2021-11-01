@@ -1,0 +1,33 @@
+.grid {
+  width: 120px;
+  height: 120px;
+  outline: 0.5px solid rgb(97, 97, 97);
+}
+#render {
+  background: rgb(44, 44, 44);
+}
+.grid:hover {
+}
+.grid-row {
+  display: flex;
+}
+.board-content {
+  width: 1920px;
+  height: 960px;
+
+  background: rgba(255, 255, 255, 0.151);
+  position: fixed;
+}
+.board-nav {
+  position: fixed;
+
+  bottom: 0px;
+  width: 1920px;
+  height: 120px;
+  background: white;
+}
+.ui-icon-gripsmall-diagonal-se {
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+  background: none;
+}
