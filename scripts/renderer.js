@@ -7,7 +7,7 @@ $(function () {
     // setTimeout(() => {
     //   loadSplash();
     // }, 500);
-    render(stateManager.currentPage);
+    render(state);
   }
 
   function loadSplash() {
@@ -70,5 +70,5 @@ $(function () {
     window.location.href = "board.html";
   });
 
-  startApp();
+  startApp("display");
 });
