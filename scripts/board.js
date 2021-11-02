@@ -1,9 +1,9 @@
 $(function () {
   let blockWidget = `
   <div
-    style="
-    width: 120px; 
-    height:120px;
+    style=" 
+    width:120px;
+    height: 120px;
     position:absolute;
     top: 0px;
     left: 0px;
@@ -13,21 +13,23 @@ $(function () {
     justify-content: center;
     align-items: center;
     "
-    class="widget"
-  >Widget 1</div>
+    class="widget widget-resize"
+    id="block"
+  >
+  
+  This is the directory widget
+  </div>
 `;
-  let imageWidget = `<div
-style="
-width: 120px; 
-height:120px;
-position:absolute;
-top: 0px;
-left: 0px;
-
-display: inline-block
-"
-class="widget resizable draggable"
-><img style="width:100%;" src="./resources/images/fp.png"></div>
+  let siteMapWidget = `
+  <div
+    style="
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    display: inline-block
+  "
+  class="widget"
+  ><img style="width:100%;" src="./resources/images/fp.png"></div>
 `;
   let xGrid = 16;
   let yGrid = 9;
@@ -39,6 +41,7 @@ class="widget resizable draggable"
       $("#row-" + i).append(newBox);
     }
   }
+
   const rgba2hex = (rgba) =>
     `#${rgba
       .match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/)
@@ -51,43 +54,37 @@ class="widget resizable draggable"
       )
       .join("")}`;
 
-  function frito(draggable, resizable) {
-    if (draggable) {
-      $(".draggable").draggable({});
-    }
-    if (resizable) {
-      $(".resizable").resizable({});
-    }
-  }
-
-  window.api.receive("fromMain", (data) => {
+  window.api.receive("fromToolbar", (data) => {
     console.log(data);
     if (data.task == "create") {
       if (data.widgetNumber == "add-widget-1") {
         $(".board-content").append(blockWidget);
       } else if (data.widgetNumber === "add-widget-2") {
-        $(".board-content").append(imageWidget);
+        $(".board-content").append(siteMapWidget);
       }
     } else if (data.task == "move") {
-      $(".widget")
-        .draggable({
-          grid: [30, 30],
-          containment: ".board-content"
-        })
-        .resizable({
-          grid: 30,
-          containment: ".board-content",
+      $(".widget").draggable({
+        grid: [30, 30],
+        containment: ".board-content"
+      });
+      $(".widget-resize").resizable({
+        grid: 30,
+        containment: ".board-content",
 
-          resize: function (e, element) {}
-        });
-      $(".widget").draggable("enable").resizable("enable");
+        resize: function (e, element) {}
+      });
+      $(".widget").draggable("enable");
+      $(".widget-resize").resizable("enable");
     } else if (data.task == "lockMove") {
       console.log("lock it down!");
-      $(".widget").draggable("disable").resizable("disable");
+      $(".widget").draggable("disable");
+      $(".widget-resize").resizable("disable");
+    } else if (data.task == "style") {
+      $(".widget").addClass("stylable");
     }
   });
-  $(".img-map").maphilight();
+  $(document).on("click", ".stylable", function (e) {
+    let id = $(this).attr("id");
+    window.api.send("main", { toStyle: id });
+  });
 });
-{
-  /*  */
-}

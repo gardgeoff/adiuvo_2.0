@@ -53,7 +53,7 @@ body {
 .btn-blue:hover {
   color: #09527f;
   border: 1px solid #09527f;
-  background: none;
+  background: none !important;
 }
 .widget-choice {
   display: none;
@@ -68,4 +68,15 @@ body {
 }
 .return-home:hover {
   cursor: pointer;
+}
+
+.input-group {
+  padding: 0em 2em;
+}
+.style-content {
+  display: none;
+}
+input[type="color"] {
+  border: none;
+  outline: none;
 }

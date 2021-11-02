@@ -25,7 +25,7 @@
     <div class="toolbar-shell">
       <div class="titlebar d-flex justify-content-between align-items-center">
         <p>Toolbar</p>
-        <i id="close-toolbar" class="fa fa-close" aria-hidden="true"></i>
+        <i id="close-toolbar" class="fa fa-close fa-sm" aria-hidden="true"></i>
       </div>
 
       <div
@@ -37,36 +37,50 @@
           home-toolbar
         "
       >
+        <div class="flex-column align-items-center style-content input-group">
+          <h5>Background Color</h5>
+          <input id="background-color" type="color" />
+        </div>
+        <div class="flex-column align-items-center style-content input-group">
+          <h5>Font Color</h5>
+          <input id="font-color" type="color" />
+        </div>
+
         <button id="add-widgets" class="home-content toolbar-btn btn btn-blue">
           <i class="fa fa-cog fa-lg"></i> <br />Add Widget
         </button>
-        <button class="home-content toolbar-btn btn btn-blue">
+        <button
+          id="style-widgets"
+          class="home-content toolbar-btn btn btn-blue"
+        >
           <i class="fa fa-paint-brush fa-lg"></i><br />
           Style
         </button>
         <button id="move" class="home-content toolbar-btn btn btn-blue">
-          <i class="fa fa-arrows-alt"></i><br />
+          <i class="fa fa-arrows-alt fa-lg"></i><br />
           Move Widgets
         </button>
 
         <i class="fa fa-arrow-circle-left fa-lg return-home"></i>
         <button
           id="add-widget-1"
+          widget-name="directory"
           class="toolbar-btn btn btn-blue widget-choice"
         >
-          Widget 1
+          Directory
         </button>
         <button
           id="add-widget-2"
+          widget-name="map"
           class="toolbar-btn btn btn-blue widget-choice"
         >
-          Widget 2
+          Site Map
         </button>
         <button
           id="add-widget-3"
           class="toolbar-btn btn btn-blue widget-choice"
         >
-          Widget 3
+          Instagram Feed
         </button>
         <button
           id="add-widget-4"

@@ -1,5 +1,6 @@
 $(function () {
   let currentScreen = "home";
+
   let canMove = true;
   function toggleHome(state) {
     if (state) {
@@ -21,7 +22,25 @@ $(function () {
       });
     }
   }
-  console.log(`jquery loaded`);
+  function toggleStyleWidget(state) {
+    if (state) {
+      $(".home-content").fadeOut(function () {
+        currentScreen = "style";
+        toggleHome(true);
+        $(".style-content").css("display", "flex").hide().fadeIn();
+      });
+    } else {
+      $(".style-content").fadeOut(function () {
+        $(".home-content").fadeIn();
+      });
+    }
+  }
+  $("#background-color").on("change", function () {
+    console.log($(this).val());
+  });
+  $("body").on("click", ".widget", () => {
+    console.log("heyo");
+  });
 
   $("#close-toolbar").on("click", function () {
     window.api.send("closeWin", "data");
@@ -29,19 +48,38 @@ $(function () {
   $("#add-widgets").on("click", function () {
     toggleSelectWidget(true);
   });
-  $("#move").on("click", function () {
-    if (canMove) {
+  $("#style-widgets").on("click", function () {
+    window.api.send("toolbar", { task: "style" });
+  });
+
+  window.api.receive("fromMain", (data) => {
+    toggleStyleWidget(true);
+  });
+  function toggleMovable(on) {
+    if (on) {
       window.api.send("toolbar", {
         task: "move"
       });
-      $(this).css("border", "4px solid #073755");
-      canMove = false;
-    } else {
+      $("#move").css("background", "#dc3545");
+      $("#move").html(`<i class="fa fa-lock fa-lg"></i><br /> Lock Widgets`);
+    } else if (!on) {
       window.api.send("toolbar", {
         task: "lockMove"
       });
+      $("#move").css("background", "#09527f");
+      $("#move").html(
+        `<i class="fa fa-arrows-alt fa-lg"></i><br /> Move Widgets`
+      );
+    }
+  }
+
+  $("#move").on("click", function () {
+    if (canMove) {
+      toggleMovable(true);
+      canMove = false;
+    } else {
+      toggleMovable(false);
       canMove = true;
-      $(this).css("border", "1px solid #09527f");
     }
   });
   $(".widget-choice").on("click", function () {
@@ -49,12 +87,18 @@ $(function () {
       task: "create",
       widgetNumber: $(this).attr("id")
     });
+    toggleMovable(true);
+    canMove = false;
   });
   $(".return-home").on("click", () => {
+    alert(currentScreen);
     toggleHome(false);
     switch (currentScreen) {
       case "select widget":
         toggleSelectWidget(false);
+        break;
+      case "style":
+        toggleStyleWidget(false);
         break;
     }
   });

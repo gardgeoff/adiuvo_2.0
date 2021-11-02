@@ -23,22 +23,23 @@ const template = [
   }
 ];
 function createToolBar() {
-  toolbar = new BrowserWindow({
-    width: 600,
-    height: 180,
-    frame: false,
-    title: "toolbar",
+  if (toolbar == undefined) {
+    toolbar = new BrowserWindow({
+      width: 600,
+      height: 180,
+      frame: false,
+      title: "toolbar",
+      resizable: false,
+      autoHideMenuBar: true,
+      webPreferences: {
+        preload: path.join(__dirname, "./preload.js")
+      },
+      alwaysOnTop: true
+    });
 
-    resizable: false,
-    autoHideMenuBar: true,
-    webPreferences: {
-      preload: path.join(__dirname, "./preload.js")
-    },
-    alwaysOnTop: true
-  });
-
-  toolbar.loadFile("toolbar.html");
-  toolbar.openDevTools();
+    toolbar.loadFile("toolbar.html");
+    toolbar.openDevTools();
+  }
 }
 async function createWindow() {
   Menu.setApplicationMenu(
@@ -51,6 +52,12 @@ async function createWindow() {
             click() {
               app.relaunch();
               app.exit();
+            }
+          },
+          {
+            label: "quit",
+            click() {
+              app.quit();
             }
           }
         ]
@@ -109,10 +116,15 @@ app.whenReady().then(() => {
   });
   ipcMain.on("closeWin", (e, args) => {
     toolbar.close();
+    toolbar = undefined;
   });
   ipcMain.on("toolbar", (e, args) => {
-    console.log("hey");
-    win.webContents.send("fromMain", args);
+    win.focus();
+    win.webContents.send("fromToolbar", args);
+  });
+  ipcMain.on("main", (e, args) => {
+    toolbar.focus();
+    toolbar.webContents.send("fromMain", args);
   });
 });
 app.on("window-all-closed", function () {
