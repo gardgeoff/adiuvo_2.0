@@ -91,7 +91,6 @@ $(function () {
     canMove = false;
   });
   $(".return-home").on("click", () => {
-    alert(currentScreen);
     toggleHome(false);
     switch (currentScreen) {
       case "select widget":

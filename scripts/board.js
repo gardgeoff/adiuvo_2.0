@@ -1,36 +1,5 @@
+import Widget from "./Widget.js";
 $(function () {
-  let blockWidget = `
-  <div
-    style=" 
-    width:120px;
-    height: 120px;
-    position:absolute;
-    top: 0px;
-    left: 0px;
-    background:#09527f;
-    color:white;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    "
-    class="widget widget-resize"
-    id="block"
-  >
-  
-  This is the directory widget
-  </div>
-`;
-  let siteMapWidget = `
-  <div
-    style="
-    position:absolute;
-    top: 0px;
-    left: 0px;
-    display: inline-block
-  "
-  class="widget"
-  ><img style="width:100%;" src="./resources/images/fp.png"></div>
-`;
   let xGrid = 16;
   let yGrid = 9;
   for (var i = 0; i < yGrid; i++) {
@@ -58,27 +27,36 @@ $(function () {
     console.log(data);
     if (data.task == "create") {
       if (data.widgetNumber == "add-widget-1") {
-        $(".board-content").append(blockWidget);
+        new Widget(Date.now(), {
+          useDefault: true
+        }).createWidget();
       } else if (data.widgetNumber === "add-widget-2") {
-        $(".board-content").append(siteMapWidget);
+        new Widget(Date.now(), {
+          widgetType: "image",
+          useDefault: true
+        }).createWidget();
       }
     } else if (data.task == "move") {
-      $(".widget").draggable({
+      $(".widget, .image-widget").draggable({
         grid: [30, 30],
         containment: ".board-content"
       });
-      $(".widget-resize").resizable({
+      $(".widget").resizable({
+        grid: 30,
+        containment: ".board-content"
+      });
+      $(".image-widget").resizable({
         grid: 30,
         containment: ".board-content",
-
-        resize: function (e, element) {}
+        alsoResize: ".image-widget > image",
+        aspectRatio: true
       });
-      $(".widget").draggable("enable");
-      $(".widget-resize").resizable("enable");
+      $(".widget, .image-widget").draggable("enable");
+      $(".widget").resizable("enable");
     } else if (data.task == "lockMove") {
       console.log("lock it down!");
-      $(".widget").draggable("disable");
-      $(".widget-resize").resizable("disable");
+      $(".widget, .image-widget").draggable("disable");
+      $(".widget").resizable("disable");
     } else if (data.task == "style") {
       $(".widget").addClass("stylable");
     }

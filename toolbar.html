@@ -27,16 +27,17 @@
         <p>Toolbar</p>
         <i id="close-toolbar" class="fa fa-close fa-sm" aria-hidden="true"></i>
       </div>
-
       <div
         class="
           d-flex
           justify-content-center
           align-items-center
           toolbar-content
+          flex-column
           home-toolbar
         "
       >
+        <h5>title</h5>
         <div class="flex-column align-items-center style-content input-group">
           <h5>Background Color</h5>
           <input id="background-color" type="color" />
@@ -45,49 +46,53 @@
           <h5>Font Color</h5>
           <input id="font-color" type="color" />
         </div>
-
-        <button id="add-widgets" class="home-content toolbar-btn btn btn-blue">
-          <i class="fa fa-cog fa-lg"></i> <br />Add Widget
-        </button>
-        <button
-          id="style-widgets"
-          class="home-content toolbar-btn btn btn-blue"
-        >
-          <i class="fa fa-paint-brush fa-lg"></i><br />
-          Style
-        </button>
-        <button id="move" class="home-content toolbar-btn btn btn-blue">
-          <i class="fa fa-arrows-alt fa-lg"></i><br />
-          Move Widgets
-        </button>
-
+        <div class="d-flex align-items-center justify-content-between">
+          <button
+            id="add-widgets"
+            class="home-content toolbar-btn btn btn-blue"
+          >
+            <i class="fa fa-cog fa-lg"></i> <br />Add Widget
+          </button>
+          <button
+            id="style-widgets"
+            class="home-content toolbar-btn btn btn-blue"
+          >
+            <i class="fa fa-paint-brush fa-lg"></i><br />
+            Style
+          </button>
+          <button id="move" class="home-content toolbar-btn btn btn-blue">
+            <i class="fa fa-arrows-alt fa-lg"></i><br />
+            Move Widgets
+          </button>
+        </div>
         <i class="fa fa-arrow-circle-left fa-lg return-home"></i>
-        <button
-          id="add-widget-1"
-          widget-name="directory"
-          class="toolbar-btn btn btn-blue widget-choice"
-        >
-          Directory
-        </button>
-        <button
-          id="add-widget-2"
-          widget-name="map"
-          class="toolbar-btn btn btn-blue widget-choice"
-        >
-          Site Map
-        </button>
-        <button
-          id="add-widget-3"
-          class="toolbar-btn btn btn-blue widget-choice"
-        >
-          Instagram Feed
-        </button>
-        <button
-          id="add-widget-4"
-          class="toolbar-btn btn btn-blue widget-choice"
-        >
-          Widget 4
-        </button>
+
+        <div class="d-flex align-items-center justify-content-between">
+          <button
+            id="add-widget-1"
+            widget-name="directory"
+            class="toolbar-btn btn btn-blue widget-choice"
+          >
+            Directory
+          </button>
+          <button
+            id="add-widget-2"
+            widget-name="map"
+            class="toolbar-btn btn btn-blue widget-choice"
+          >
+            Image
+          </button>
+          <button
+            id="add-widget-3"
+            class="toolbar-btn btn btn-blue widget-choice"
+          >
+            Site Map
+          </button>
+          <button
+            id="add-widget-4"
+            class="toolbar-btn btn btn-blue widget-choice"
+          ></button>
+        </div>
       </div>
     </div>
   </body>

@@ -5,23 +5,28 @@ const {
   ipcMain,
   globalShortcut
 } = require("electron");
-
 const path = require("path");
+const { initializeApp } = require("firebase/app");
+const { getDatabase, set, ref, onValue } = require("firebase/database");
+const firebaseConfig = {
+  apiKey: "AIzaSyDvvfr7ozt5go6IxXaX4kP9HghFpDwON1Q",
+  authDomain: "adiuvo-6733c.firebaseapp.com",
+  projectId: "adiuvo-6733c",
+  storageBucket: "adiuvo-6733c.appspot.com",
+  messagingSenderId: "332106134019",
+  appId: "1:332106134019:web:b56c003653edf1c7ee5436"
+};
 
+// Initialize Firebase
+
+const fbApp = initializeApp(firebaseConfig);
+
+const db = getDatabase(fbApp);
+set(ref(db, "/pi_12314"), {
+  name: "mypi"
+});
 let win, toolbar, slider;
-const template = [
-  {
-    label: "View",
-    submenu: [
-      {
-        label: "Edit Mode",
-        click() {
-          enterEdit();
-        }
-      }
-    ]
-  }
-];
+
 function createToolBar() {
   if (toolbar == undefined) {
     toolbar = new BrowserWindow({

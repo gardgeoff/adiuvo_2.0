@@ -60,7 +60,6 @@ body {
   width: 120px;
 }
 .return-home {
-  position: fixed;
   display: none;
   top: 35px;
   color: #09527f;
