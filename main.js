@@ -5,40 +5,47 @@ const {
   ipcMain,
   globalShortcut
 } = require("electron");
-
 const path = require("path");
+const { initializeApp } = require("firebase/app");
+const { getDatabase, set, ref, onValue } = require("firebase/database");
+const data = require("./scripts/directory.json");
+const firebaseConfig = {
+  apiKey: "AIzaSyDvvfr7ozt5go6IxXaX4kP9HghFpDwON1Q",
+  authDomain: "adiuvo-6733c.firebaseapp.com",
+  projectId: "adiuvo-6733c",
+  storageBucket: "adiuvo-6733c.appspot.com",
+  messagingSenderId: "332106134019",
+  appId: "1:332106134019:web:b56c003653edf1c7ee5436"
+};
 
+// Initialize Firebase
+
+const fbApp = initializeApp(firebaseConfig);
+
+const db = getDatabase(fbApp);
+set(ref(db, "/pi_12314"), {
+  name: "mypi"
+});
 let win, toolbar, slider;
-const template = [
-  {
-    label: "View",
-    submenu: [
-      {
-        label: "Edit Mode",
-        click() {
-          enterEdit();
-        }
-      }
-    ]
-  }
-];
+
 function createToolBar() {
-  toolbar = new BrowserWindow({
-    width: 600,
-    height: 180,
-    frame: false,
-    title: "toolbar",
+  if (toolbar == undefined) {
+    toolbar = new BrowserWindow({
+      width: 600,
+      height: 240,
+      frame: false,
+      title: "toolbar",
+      resizable: false,
+      autoHideMenuBar: true,
+      webPreferences: {
+        preload: path.join(__dirname, "./preload.js")
+      },
+      alwaysOnTop: true
+    });
 
-    resizable: false,
-    autoHideMenuBar: true,
-    webPreferences: {
-      preload: path.join(__dirname, "./preload.js")
-    },
-    alwaysOnTop: true
-  });
-
-  toolbar.loadFile("toolbar.html");
-  toolbar.openDevTools();
+    toolbar.loadFile("toolbar.html");
+    toolbar.openDevTools();
+  }
 }
 async function createWindow() {
   Menu.setApplicationMenu(
@@ -52,6 +59,12 @@ async function createWindow() {
               app.relaunch();
               app.exit();
             }
+          },
+          {
+            label: "quit",
+            click() {
+              app.quit();
+            }
           }
         ]
       },
@@ -62,6 +75,12 @@ async function createWindow() {
             label: "toolbar",
             click() {
               createToolBar();
+            }
+          },
+          {
+            label: "dev tools",
+            click() {
+              win.openDevTools();
             }
           }
         ]
@@ -91,13 +110,14 @@ async function createWindow() {
       preload: path.join(__dirname, "./preload.js")
     }
   });
+
   win.loadFile("index.html");
   win.openDevTools();
 }
 
 app.whenReady().then(() => {
   createWindow();
-
+  win.webContents.send("fromMain", data);
   globalShortcut.register("f5", () => {
     if (toolbar) {
       toolbar.reload();
@@ -109,13 +129,20 @@ app.whenReady().then(() => {
   });
   ipcMain.on("closeWin", (e, args) => {
     toolbar.close();
+    toolbar = undefined;
   });
   ipcMain.on("toolbar", (e, args) => {
-    console.log("hey");
-    win.webContents.send("fromMain", args);
+    win.focus();
+    win.webContents.send("fromToolbar", args);
+  });
+  ipcMain.on("board", (e, args) => {
+    toolbar.focus();
+    toolbar.webContents.send("fromBoard", args);
+  });
+  ipcMain.on("toMain", (e, args) => {
+    win.webContents.send("fromMain", data);
   });
 });
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
-ipcMain.on("toMain", (e, args) => {});

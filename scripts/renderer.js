@@ -33,24 +33,6 @@ $(function () {
   function loadDisplay() {
     window.location.href = "board.html";
   }
-  function render(page) {
-    stateManager.history.push(stateManager.currentPage);
-    stateManager.currentPage = page;
-
-    switch (page) {
-      case "splash":
-        loadSplash();
-        break;
-      case "verify":
-        loadVerify();
-        break;
-      case "board":
-        loadBoardType();
-        break;
-      case "display":
-        loadDisplay();
-    }
-  }
 
   $("#verify-btn").on("click", function () {
     $(this)
@@ -69,6 +51,22 @@ $(function () {
   $("#salon-board").on("click", function () {
     window.location.href = "board.html";
   });
-
+  function render(page) {
+    stateManager.history.push(stateManager.currentPage);
+    stateManager.currentPage = page;
+    switch (page) {
+      case "splash":
+        loadSplash();
+        break;
+      case "verify":
+        loadVerify();
+        break;
+      case "board":
+        loadBoardType();
+        break;
+      case "display":
+        loadDisplay();
+    }
+  }
   startApp("display");
 });

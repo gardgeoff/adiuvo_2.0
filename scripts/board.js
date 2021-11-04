@@ -1,4 +1,7 @@
+import Widget from "./Widget.js";
+
 $(function () {
+  let directoryData;
   let xGrid = 16;
   let yGrid = 9;
   for (var i = 0; i < yGrid; i++) {
@@ -9,6 +12,7 @@ $(function () {
       $("#row-" + i).append(newBox);
     }
   }
+
   const rgba2hex = (rgba) =>
     `#${rgba
       .match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/)
@@ -21,95 +25,51 @@ $(function () {
       )
       .join("")}`;
 
-  function frito(draggable, resizable) {
-    if (draggable) {
-      $(".draggable").draggable({});
-    }
-    if (resizable) {
-      $(".resizable").resizable({});
-    }
-  }
-
-  $(".board-content").on("mousedown", function (e) {
-    if (e.which == 3) {
-      console.log("right mouse click");
-      let x = e.pageX;
-      let y = e.pageY;
-      console.log(`x: ${x} y:${y}`);
-      x = Math.ceil(x / 120) * 120;
-      y = Math.ceil(y / 120) * 120;
-      console.log(`x: ${x} y:${y}`);
-      console.log(x);
-      let newWidget = `
-      <div
-        style="
-        width: 120px; 
-    
-        position:absolute;
-        top: ${y - 120}px;
-        left: ${x - 120}px;
-        
-        display: inline-block
-        "
-        class="widget resizable draggable"
-      ><img style="width:100%;" src="./resources/images/AdiuvoLogo.png"></div>
-    `;
-      $(this).append(newWidget);
-      frito(true, true);
-    }
-  });
+  window.api.send("toMain", "ping");
   window.api.receive("fromMain", (data) => {
+    directoryData = data;
+  });
+  window.api.receive("fromToolbar", (data) => {
     console.log(data);
     if (data.task == "create") {
-      let newWidget = `
-      <div
-        style="
-        width: 120px; 
-        height:120px;
-        position:absolute;
-        top: 0px;
-        left: 0px;
-        background:#09527f;
-        color:white;
-        display:flex;
-        justify-content: center;
-        align-items: center;
-        "
-        class="widget"
-      >Widget 1</div>
-    `;
-      $(".board-content").append(newWidget);
+      if (data.widgetNumber == "add-widget-1") {
+        new Widget(Date.now(), {
+          widgetType: "directory",
+          directory: directoryData
+        }).createWidget();
+      } else if (data.widgetNumber === "add-widget-2") {
+        new Widget(Date.now(), {
+          widgetType: "image",
+          useDefault: true
+        }).createWidget();
+      }
     } else if (data.task == "move") {
-      $(".widget")
-        .draggable({
-          grid: [30, 30],
-          containment: ".board-content"
-        })
-        .resizable({
-          grid: 30,
-          containment: ".board-content",
-
-          resize: function (e, element) {}
-        });
-      $(".widget").draggable("enable").resizable("enable");
+      $(".widget, .image-widget").draggable({
+        grid: [30, 30],
+        containment: ".board-content"
+      });
+      $(".widget").resizable({
+        grid: 30,
+        containment: ".board-content"
+      });
+      $(".image-widget").resizable({
+        grid: 30,
+        containment: ".board-content",
+        alsoResize: ".image-widget > image",
+        aspectRatio: true
+      });
+      $(".widget, .image-widget").draggable("enable");
+      $(".widget").resizable("enable");
     } else if (data.task == "lockMove") {
       console.log("lock it down!");
-      $(".widget").draggable("disable").resizable("disable");
+      $(".widget, .image-widget").draggable("disable");
+      $(".widget").resizable("disable");
+    } else if (data.task == "style") {
+      $(".widget").addClass("stylable");
     }
   });
-  $(".img-map").maphilight();
+  $(document).on("click", ".stylable", function (e) {
+    let id = $(this).attr("id");
+    window.api.send("board", { toStyle: id });
+  });
 });
-{
-  /* <div
-style="
-width: 120px; 
-height:120px;
-position:absolute;
-top: 0px;
-left: 0px;
-
-display: inline-block
-"
-class="widget resizable draggable"
-><img style="width:100%;" src="./resources/images/AdiuvoLogo.png"></div> */
-}
