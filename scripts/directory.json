@@ -1,3 +1,198 @@
-{
-  
-}
+[
+  {
+    "salon_number": 1,
+    "name" : "salon 1",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 2,
+    "name" : "salon 2",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 3,
+    "name" : "salon 3",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 4,
+    "name" : "salon 4",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 5,
+    "name" : "salon 5",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 6,
+    "name" : "salon 6",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 7,
+    "name" : "salon 7",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 1,
+    "name" : "salon 1",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 2,
+    "name" : "salon 2",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 3,
+    "name" : "salon 3",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 4,
+    "name" : "salon 4",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 5,
+    "name" : "salon 5",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 6,
+    "name" : "salon 6",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 7,
+    "name" : "salon 7",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 1,
+    "name" : "salon 1",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 2,
+    "name" : "salon 2",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 3,
+    "name" : "salon 3",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 4,
+    "name" : "salon 4",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 5,
+    "name" : "salon 5",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 6,
+    "name" : "salon 6",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 7,
+    "name" : "salon 7",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 1,
+    "name" : "salon 1",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 2,
+    "name" : "salon 2",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 3,
+    "name" : "salon 3",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 4,
+    "name" : "salon 4",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 5,
+    "name" : "salon 5",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 6,
+    "name" : "salon 6",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  },
+  {
+    "salon_number": 7,
+    "name" : "salon 7",
+    "owner" : "John Doe",
+    "phone" : "(111) 111 1111"
+    
+  }
+]
