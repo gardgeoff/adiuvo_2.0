@@ -8,6 +8,7 @@ const {
 const path = require("path");
 const { initializeApp } = require("firebase/app");
 const { getDatabase, set, ref, onValue } = require("firebase/database");
+const data = require("./scripts/directory.json");
 const firebaseConfig = {
   apiKey: "AIzaSyDvvfr7ozt5go6IxXaX4kP9HghFpDwON1Q",
   authDomain: "adiuvo-6733c.firebaseapp.com",
@@ -31,7 +32,7 @@ function createToolBar() {
   if (toolbar == undefined) {
     toolbar = new BrowserWindow({
       width: 600,
-      height: 180,
+      height: 240,
       frame: false,
       title: "toolbar",
       resizable: false,
@@ -75,6 +76,12 @@ async function createWindow() {
             click() {
               createToolBar();
             }
+          },
+          {
+            label: "dev tools",
+            click() {
+              win.openDevTools();
+            }
           }
         ]
       },
@@ -103,13 +110,14 @@ async function createWindow() {
       preload: path.join(__dirname, "./preload.js")
     }
   });
+
   win.loadFile("index.html");
   win.openDevTools();
 }
 
 app.whenReady().then(() => {
   createWindow();
-
+  win.webContents.send("fromMain", data);
   globalShortcut.register("f5", () => {
     if (toolbar) {
       toolbar.reload();
@@ -127,12 +135,14 @@ app.whenReady().then(() => {
     win.focus();
     win.webContents.send("fromToolbar", args);
   });
-  ipcMain.on("main", (e, args) => {
+  ipcMain.on("board", (e, args) => {
     toolbar.focus();
-    toolbar.webContents.send("fromMain", args);
+    toolbar.webContents.send("fromBoard", args);
+  });
+  ipcMain.on("toMain", (e, args) => {
+    win.webContents.send("fromMain", data);
   });
 });
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
-ipcMain.on("toMain", (e, args) => {});

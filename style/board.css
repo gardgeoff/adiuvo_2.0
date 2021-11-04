@@ -3,6 +3,9 @@
   height: 120px;
   outline: 0.5px solid rgb(97, 97, 97);
 }
+*::selection {
+  background: none;
+}
 #render {
   background: rgb(44, 44, 44);
 }
@@ -35,4 +38,9 @@
 }
 .stylable:hover {
   background: rgba(32, 189, 32, 0.562) !important;
+}
+ul,
+li {
+  margin: 0;
+  padding: 5px;
 }

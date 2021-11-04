@@ -49,11 +49,22 @@ $(function () {
     toggleSelectWidget(true);
   });
   $("#style-widgets").on("click", function () {
-    window.api.send("toolbar", { task: "style" });
+    currentScreen = "style";
+    $(".home-content").fadeOut("slow", function () {
+      toggleHome(true);
+      $(".style-click")
+        .css("display", "flex")
+        .hide()
+        .fadeIn("slow", function () {
+          window.api.send("toolbar", { task: "style" });
+        });
+    });
   });
 
-  window.api.receive("fromMain", (data) => {
-    toggleStyleWidget(true);
+  window.api.receive("fromBoard", (data) => {
+    $(".style-click").fadeOut("slow", function () {
+      toggleStyleWidget(true);
+    });
   });
   function toggleMovable(on) {
     if (on) {
@@ -72,7 +83,6 @@ $(function () {
       );
     }
   }
-
   $("#move").on("click", function () {
     if (canMove) {
       toggleMovable(true);
@@ -98,6 +108,7 @@ $(function () {
         break;
       case "style":
         toggleStyleWidget(false);
+
         break;
     }
   });

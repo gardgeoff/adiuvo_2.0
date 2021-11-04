@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "browserify": "^17.0.0",
-    "custom-electron-titlebar": "^3.2.7",
     "firebase": "^9.2.0",
     "path": "^0.12.7"
   }

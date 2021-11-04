@@ -1,5 +1,7 @@
 import Widget from "./Widget.js";
+
 $(function () {
+  let directoryData;
   let xGrid = 16;
   let yGrid = 9;
   for (var i = 0; i < yGrid; i++) {
@@ -23,12 +25,17 @@ $(function () {
       )
       .join("")}`;
 
+  window.api.send("toMain", "ping");
+  window.api.receive("fromMain", (data) => {
+    directoryData = data;
+  });
   window.api.receive("fromToolbar", (data) => {
     console.log(data);
     if (data.task == "create") {
       if (data.widgetNumber == "add-widget-1") {
         new Widget(Date.now(), {
-          useDefault: true
+          widgetType: "directory",
+          directory: directoryData
         }).createWidget();
       } else if (data.widgetNumber === "add-widget-2") {
         new Widget(Date.now(), {
@@ -63,6 +70,6 @@ $(function () {
   });
   $(document).on("click", ".stylable", function (e) {
     let id = $(this).attr("id");
-    window.api.send("main", { toStyle: id });
+    window.api.send("board", { toStyle: id });
   });
 });
