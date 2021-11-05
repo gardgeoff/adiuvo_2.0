@@ -80,6 +80,7 @@ body {
   margin: 8px;
   border-radius: 50%;
   border: 6px solid #09527f;
+
   border-color: #09527f transparent #09527f transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }

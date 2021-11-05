@@ -93,11 +93,18 @@ async function createWindow() {
             click() {
               win.setFullScreen(true);
             }
+          },
+          {
+            label: "show / hide grid",
+            click() {
+              win.webContents.send("fromMain", "toggleGrid");
+            }
           }
         ]
       }
     ])
   );
+
   win = new BrowserWindow({
     width: 1920,
     height: 1080,

@@ -47,12 +47,10 @@ export default class Widget {
       let listString = "";
 
       this.directory.map((item) => {
+        let flex = `<div class="${item.category} directory-item align-items-center justify-content-between"><h2>${item.salon_number}</h2><div><ul><li>${item.name}</li><li>${item.owner}</li><li>${item.phone}</li></ul></div></div>`;
         let newLine = `<ul><li>${item.name}</li><li>${item.owner}</li><li>${item.phone}</li></ul>`;
-        console.log(newLine);
-        listString += newLine;
+        listString += flex;
       });
-      console.log(listString);
-
       $("#" + this.id)
         .html(listString)
         .addClass("widget")
@@ -62,13 +60,13 @@ export default class Widget {
           width: "120px",
           height: "120px",
           display: "flex",
-          alignItems: "center",
+          alignItems: "start",
           flexFlow: "column wrap",
           overflow: "hidden",
-          justifyContent: "center",
-          float: "left"
+          justifyContent: "start",
+          float: "left",
+          alignContent: "flex-start"
         });
-
       $("#" + this.id > "ul").css({
         padding: "5px"
       });

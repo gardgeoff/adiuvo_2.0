@@ -27,7 +27,7 @@
   bottom: 0px;
   width: 1920px;
   height: 120px;
-  background: #09527f;
+  background: #79b4b7;
   color: white;
   font-size: 40px;
 }
@@ -42,5 +42,11 @@
 ul,
 li {
   margin: 0;
+  padding: 0;
+}
+ul {
   padding: 5px;
+}
+.directory-item {
+  display: flex;
 }

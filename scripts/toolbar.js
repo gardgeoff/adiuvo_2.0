@@ -64,6 +64,11 @@ $(function () {
   window.api.receive("fromBoard", (data) => {
     $(".style-click").fadeOut("slow", function () {
       toggleStyleWidget(true);
+      let bg = data.background;
+      let font = data.fontColor;
+      console.log(`bg ${bg} font ${font}`);
+      $("#font-color").val(font);
+      $("#background-color").val(bg);
     });
   });
   function toggleMovable(on) {

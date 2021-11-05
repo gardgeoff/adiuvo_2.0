@@ -4,6 +4,8 @@ $(function () {
   let directoryData;
   let xGrid = 16;
   let yGrid = 9;
+  let gridOn = true;
+  let styling = false;
   for (var i = 0; i < yGrid; i++) {
     let newRow = `<div class="grid-row" id="row-${i}"></div>`;
     $("#render").append(newRow);
@@ -12,7 +14,21 @@ $(function () {
       $("#row-" + i).append(newBox);
     }
   }
-
+  function toggleGrid() {
+    if (gridOn) {
+      $(".grid").css("outline", "none");
+      gridOn = false;
+    } else {
+      $(".grid").css("outline", "0.5px solid rgb(97, 97, 97)");
+      gridOn = true;
+    }
+  }
+  function isOverflown(element) {
+    return (
+      element.scrollHeight > element.clientHeight ||
+      element.scrollWidth > element.clientWidth
+    );
+  }
   const rgba2hex = (rgba) =>
     `#${rgba
       .match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/)
@@ -27,8 +43,13 @@ $(function () {
 
   window.api.send("toMain", "ping");
   window.api.receive("fromMain", (data) => {
-    directoryData = data;
+    if (typeof data === "object") {
+      directoryData = data;
+    } else if (data == "toggleGrid") {
+      toggleGrid();
+    }
   });
+
   window.api.receive("fromToolbar", (data) => {
     console.log(data);
     if (data.task == "create") {
@@ -49,7 +70,7 @@ $(function () {
         containment: ".board-content"
       });
       $(".widget").resizable({
-        grid: 30,
+        grid: 10,
         containment: ".board-content"
       });
       $(".image-widget").resizable({
@@ -65,11 +86,32 @@ $(function () {
       $(".widget, .image-widget").draggable("disable");
       $(".widget").resizable("disable");
     } else if (data.task == "style") {
-      $(".widget").addClass("stylable");
+      if (!styling) {
+        $(".widget").addClass("stylable");
+        styling = true;
+      } else {
+      }
     }
   });
   $(document).on("click", ".stylable", function (e) {
     let id = $(this).attr("id");
-    window.api.send("board", { toStyle: id });
+    let font = rgba2hex($(this).css("color"));
+    let bg = rgba2hex($(this).css("background-color"));
+    window.api.send("board", { toStyle: id, fontColor: font, background: bg });
+    styling = false;
+    $(".widget").removeClass("stylable");
+  });
+  $("#filter-1").on("click", function () {
+    $(".directory-item").hide(() => {
+      $(".cat_1").show();
+    });
+  });
+  $("#filter-2").on("click", function () {
+    $(".directory-item").hide(() => {
+      $(".cat_2").show();
+    });
+  });
+  $("#filter-show").on("click", function () {
+    $(".directory-item").show();
   });
 });
