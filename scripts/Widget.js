@@ -63,6 +63,7 @@ export default class Widget {
           alignItems: "start",
           flexFlow: "column wrap",
           overflow: "hidden",
+          position: "absolute",
           justifyContent: "start",
           float: "left",
           alignContent: "flex-start"

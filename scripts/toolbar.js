@@ -35,13 +35,34 @@ $(function () {
       });
     }
   }
+  function toggleStyleSelect(state) {
+    if (state) {
+      currentScreen = "style_select";
+      $(".home-content").fadeOut("fast", function () {
+        toggleHome(true);
+        $(".style-click")
+          .css("display", "flex")
+          .hide()
+          .fadeIn("fast", function () {
+            window.api.send("toolbar", { task: "style" });
+          });
+      });
+    } else {
+      $(".style-click").fadeOut("fast", function () {
+        $(".home-content").fadeIn();
+      });
+    }
+  }
+  $("#background-color").on("change", (e) => {
+    console.log($(this).val());
+  });
+  $("#font-color").on("change", (e) => {
+    console.log(this);
+    console.log($(this).val());
+  });
   $("#background-color").on("change", function () {
     console.log($(this).val());
   });
-  $("body").on("click", ".widget", () => {
-    console.log("heyo");
-  });
-
   $("#close-toolbar").on("click", function () {
     window.api.send("closeWin", "data");
   });
@@ -49,26 +70,17 @@ $(function () {
     toggleSelectWidget(true);
   });
   $("#style-widgets").on("click", function () {
-    currentScreen = "style";
-    $(".home-content").fadeOut("slow", function () {
-      toggleHome(true);
-      $(".style-click")
-        .css("display", "flex")
-        .hide()
-        .fadeIn("slow", function () {
-          window.api.send("toolbar", { task: "style" });
-        });
-    });
+    toggleStyleSelect(true);
   });
 
   window.api.receive("fromBoard", (data) => {
-    $(".style-click").fadeOut("slow", function () {
+    $(".style-click").fadeOut("fast", function () {
       toggleStyleWidget(true);
       let bg = data.background;
       let font = data.fontColor;
       console.log(`bg ${bg} font ${font}`);
-      $("#font-color").val(font);
-      $("#background-color").val(bg);
+      // $("#font-color").val(font);
+      // $("#background-color").val(bg);
     });
   });
   function toggleMovable(on) {
@@ -113,7 +125,9 @@ $(function () {
         break;
       case "style":
         toggleStyleWidget(false);
-
+        break;
+      case "style_select":
+        toggleStyleSelect(false);
         break;
     }
   });

@@ -9,6 +9,7 @@ const path = require("path");
 const { initializeApp } = require("firebase/app");
 const { getDatabase, set, ref, onValue } = require("firebase/database");
 const data = require("./scripts/directory.json");
+const settings = require("./applicationSettings.json");
 const firebaseConfig = {
   apiKey: "AIzaSyDvvfr7ozt5go6IxXaX4kP9HghFpDwON1Q",
   authDomain: "adiuvo-6733c.firebaseapp.com",
@@ -19,15 +20,13 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-
+let registered;
 const fbApp = initializeApp(firebaseConfig);
-
 const db = getDatabase(fbApp);
-set(ref(db, "/pi_12314"), {
-  name: "mypi"
-});
-let win, toolbar, slider;
+const registerRef = ref(db, `/pi_${settings.piid}/registered`);
+const fontColorRef = ref(db, `/pi_${settings.piid}/action/fontColor`);
 
+let win, toolbar, slider;
 function createToolBar() {
   if (toolbar == undefined) {
     toolbar = new BrowserWindow({
@@ -42,7 +41,6 @@ function createToolBar() {
       },
       alwaysOnTop: true
     });
-
     toolbar.loadFile("toolbar.html");
     toolbar.openDevTools();
   }
@@ -124,7 +122,19 @@ async function createWindow() {
 
 app.whenReady().then(() => {
   createWindow();
-  win.webContents.send("fromMain", data);
+  onValue(registerRef, (snap) => {
+    let values = snap.val();
+    registered = values;
+    win.webContents.send("fromMain", {
+      id: settings.piid,
+      registered: registered
+    });
+  });
+  onValue(fontColorRef, (snap) => {
+    let value = snap.val();
+    win.webContents.send("fromDash", { task: "fontColor", color: value });
+  });
+
   globalShortcut.register("f5", () => {
     if (toolbar) {
       toolbar.reload();
@@ -147,7 +157,13 @@ app.whenReady().then(() => {
     toolbar.webContents.send("fromBoard", args);
   });
   ipcMain.on("toMain", (e, args) => {
-    win.webContents.send("fromMain", data);
+    if (args.request === "id") {
+      console.log("requesting id, sending id");
+      win.webContents.send("fromMain", {
+        id: settings.piid,
+        registered: registered
+      });
+    }
   });
 });
 app.on("window-all-closed", function () {

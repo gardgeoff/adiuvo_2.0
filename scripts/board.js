@@ -50,8 +50,7 @@ $(function () {
     }
   });
 
-  window.api.receive("fromToolbar", (data) => {
-    console.log(data);
+  window.api.receive("fromDash", (data) => {
     if (data.task == "create") {
       if (data.widgetNumber == "add-widget-1") {
         new Widget(Date.now(), {
@@ -64,7 +63,8 @@ $(function () {
           useDefault: true
         }).createWidget();
       }
-    } else if (data.task == "move") {
+    }
+    if (data.task == "move") {
       $(".widget, .image-widget").draggable({
         grid: [30, 30],
         containment: ".board-content"
@@ -86,11 +86,10 @@ $(function () {
       $(".widget, .image-widget").draggable("disable");
       $(".widget").resizable("disable");
     } else if (data.task == "style") {
-      if (!styling) {
-        $(".widget").addClass("stylable");
-        styling = true;
-      } else {
-      }
+      $(".widget").addClass("stylable");
+      styling = true;
+    } else if (data.task == "fontColor") {
+      $("*").css("color", data.color);
     }
   });
   $(document).on("click", ".stylable", function (e) {
