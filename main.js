@@ -119,7 +119,6 @@ async function createWindow() {
   win.loadFile("index.html");
   win.openDevTools();
 }
-
 app.whenReady().then(() => {
   createWindow();
   onValue(registerRef, (snap) => {
@@ -133,6 +132,7 @@ app.whenReady().then(() => {
   onValue(fontColorRef, (snap) => {
     let value = snap.val();
     win.webContents.send("fromDash", { task: "fontColor", color: value });
+    console.log(`Font color: ${value}`);
   });
 
   globalShortcut.register("f5", () => {
@@ -163,6 +163,8 @@ app.whenReady().then(() => {
         id: settings.piid,
         registered: registered
       });
+    } else if (args.request === "directory") {
+      win.webContents.send("fromMain", data);
     }
   });
 });

@@ -53,5 +53,5 @@ $(function () {
         loadDisplay();
     }
   }
-  startApp("splash");
+  startApp("display");
 });

@@ -31,23 +31,32 @@ export default class Widget {
     $("#" + this.id).css({
       top: this.yPos,
       left: this.xPos,
-      background: "#09527f",
+      width: this.width,
+      height: this.height,
+      // background: "#09527f",,
+      background: "none",
       color: "white"
     });
-    if (this.widgetType == "image") {
+    if (this.widgetType == "sitemap") {
       $("#" + this.id)
         .html('<img  style="width: 100%;" src="./resources/images/fp.png"/>')
         .css({
           display: "inline-block",
-          position: "fixed",
-          background: "rgba(255, 255, 255, 0.281)"
+          position: "fixed"
+          // background: "rgba(255, 255, 255, 0.281)"
         })
         .addClass("image-widget");
     } else if (this.widgetType == "directory") {
       let listString = "";
 
       this.directory.map((item) => {
-        let flex = `<div class="${item.category} directory-item align-items-center justify-content-between"><h2>${item.salon_number}</h2><div><ul><li>${item.name}</li><li>${item.owner}</li><li>${item.phone}</li></ul></div></div>`;
+        let flex = `<div class="${
+          item.category !== undefined ? item.category : ""
+        } directory-item align-items-center justify-content-between"><h2>${
+          item.salon_number
+        }</h2><div><ul><li>${item.name}</li><li>${item.owner}</li><li>${
+          item.phone
+        }</li></ul></div></div>`;
         let newLine = `<ul><li>${item.name}</li><li>${item.owner}</li><li>${item.phone}</li></ul>`;
         listString += flex;
       });
@@ -57,8 +66,7 @@ export default class Widget {
         .css({
           fontSize: "16px !important",
           minWidth: "120px",
-          width: "120px",
-          height: "120px",
+
           display: "flex",
           alignItems: "start",
           flexFlow: "column wrap",
@@ -66,7 +74,7 @@ export default class Widget {
           position: "absolute",
           justifyContent: "start",
           float: "left",
-          alignContent: "flex-start"
+          alignContent: "start"
         });
       $("#" + this.id > "ul").css({
         padding: "5px"

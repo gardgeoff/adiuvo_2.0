@@ -4,7 +4,7 @@ $(function () {
   let directoryData;
   let xGrid = 16;
   let yGrid = 9;
-  let gridOn = true;
+  let gridOn = false;
   let styling = false;
   for (var i = 0; i < yGrid; i++) {
     let newRow = `<div class="grid-row" id="row-${i}"></div>`;
@@ -14,6 +14,17 @@ $(function () {
       $("#row-" + i).append(newBox);
     }
   }
+  function makeMovable() {
+    $(".widget, .image-widget").draggable({
+      grid: [30, 30],
+      containment: ".board-content"
+    });
+    $(".widget").resizable({
+      grid: 10,
+      containment: ".board-content"
+    });
+  }
+
   function toggleGrid() {
     if (gridOn) {
       $(".grid").css("outline", "none");
@@ -23,6 +34,7 @@ $(function () {
       gridOn = true;
     }
   }
+  toggleGrid();
   function isOverflown(element) {
     return (
       element.scrollHeight > element.clientHeight ||
@@ -40,11 +52,24 @@ $(function () {
           .replace("NaN", "")
       )
       .join("")}`;
-
-  window.api.send("toMain", "ping");
+  let siteMap = new Widget(Date.now(), {
+    widgetType: "sitemap",
+    top: "240px",
+    left: "1500px"
+  }).createWidget();
+  window.api.send("toMain", { request: "directory" });
   window.api.receive("fromMain", (data) => {
+    console.log(data);
     if (typeof data === "object") {
       directoryData = data;
+      let directory = new Widget(Date.now(), {
+        widgetType: "directory",
+        directory: directoryData,
+        left: "0px",
+        top: "0px",
+        width: "1530px",
+        height: "910px"
+      }).createWidget();
     } else if (data == "toggleGrid") {
       toggleGrid();
     }
@@ -89,6 +114,7 @@ $(function () {
       $(".widget").addClass("stylable");
       styling = true;
     } else if (data.task == "fontColor") {
+      console.log(data);
       $("*").css("color", data.color);
     }
   });
