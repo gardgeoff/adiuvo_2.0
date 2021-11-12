@@ -24,7 +24,7 @@ let registered;
 const fbApp = initializeApp(firebaseConfig);
 const db = getDatabase(fbApp);
 const registerRef = ref(db, `/pi_${settings.piid}/registered`);
-const fontColorRef = ref(db, `/pi_${settings.piid}/action/fontColor`);
+const fontColorRef = ref(db, `/pi_${settings.piid}/`);
 
 let win, toolbar, slider;
 function createToolBar() {
