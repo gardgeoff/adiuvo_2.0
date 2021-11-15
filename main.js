@@ -6,6 +6,7 @@ const {
   globalShortcut
 } = require("electron");
 const path = require("path");
+const fs = require("fs");
 const { initializeApp } = require("firebase/app");
 const { getDatabase, set, ref, onValue } = require("firebase/database");
 const data = require("./scripts/directory.json");
@@ -23,8 +24,9 @@ const firebaseConfig = {
 let registered;
 const fbApp = initializeApp(firebaseConfig);
 const db = getDatabase(fbApp);
-const registerRef = ref(db, `/pi_${settings.piid}/registered`);
-const fontColorRef = ref(db, `/pi_${settings.piid}/`);
+let baseRef = `/pi_${settings.piid}`;
+let registerRef = ref(db, `${baseRef}/registered`);
+let fontColorRef = ref(db, `/${baseRef}/widgets`);
 
 let win, toolbar, slider;
 function createToolBar() {
@@ -153,8 +155,15 @@ app.whenReady().then(() => {
     win.webContents.send("fromToolbar", args);
   });
   ipcMain.on("board", (e, args) => {
-    toolbar.focus();
-    toolbar.webContents.send("fromBoard", args);
+    if (args.touches) {
+      let data = JSON.parse(fs.readFileSync("applicationSettings.json"));
+      let totalCount = (data.interactCount += args.touches);
+      data.interactCount = totalCount;
+      fs.writeFile("applicationSettings.json", JSON.stringify(data), (err) => {
+        if (err) throw err;
+        console.log("wrote to file");
+      });
+    }
   });
   ipcMain.on("toMain", (e, args) => {
     if (args.request === "id") {

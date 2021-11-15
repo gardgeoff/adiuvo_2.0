@@ -1,6 +1,7 @@
 import Widget from "./Widget.js";
 
 $(function () {
+  let interactCount = 0;
   let directoryData;
   let xGrid = 16;
   let yGrid = 9;
@@ -139,4 +140,11 @@ $(function () {
   $("#filter-show").on("click", function () {
     $(".directory-item").show();
   });
+  $(document).on("click", () => {
+    interactCount++;
+  });
+  setInterval(() => {
+    window.api.send("board", { touches: interactCount });
+    interactCount = 0;
+  }, 10000);
 });
