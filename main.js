@@ -26,9 +26,11 @@ const fbApp = initializeApp(firebaseConfig);
 const db = getDatabase(fbApp);
 let baseRef = `/pi_${settings.piid}`;
 let registerRef = ref(db, `${baseRef}/registered`);
-let fontColorRef = ref(db, `/${baseRef}/widgets`);
+let widgetRef = ref(db, `/${baseRef}/widgets`);
 
-let win, toolbar, slider;
+let restartRef = ref(db, `/${baseRef}/restart`);
+console.log(restartRef);
+let win, toolbar;
 function createToolBar() {
   if (toolbar == undefined) {
     toolbar = new BrowserWindow({
@@ -123,6 +125,13 @@ async function createWindow() {
 }
 app.whenReady().then(() => {
   createWindow();
+  onValue(restartRef, (snap) => {
+    let falseTrue = snap.val();
+    if (falseTrue) {
+      app.relaunch();
+      app.exit();
+    }
+  });
   onValue(registerRef, (snap) => {
     let values = snap.val();
     registered = values;
@@ -131,10 +140,10 @@ app.whenReady().then(() => {
       registered: registered
     });
   });
-  onValue(fontColorRef, (snap) => {
+  onValue(widgetRef, (snap) => {
     let value = snap.val();
-    win.webContents.send("fromDash", { task: "fontColor", color: value });
-    console.log(`Font color: ${value}`);
+    console.log(value);
+    win.webContents.send("fromDash", { task: "style", widgets: value });
   });
 
   globalShortcut.register("f5", () => {

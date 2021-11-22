@@ -56,7 +56,8 @@ $(function () {
   let siteMap = new Widget(Date.now(), {
     widgetType: "sitemap",
     top: "240px",
-    left: "1500px"
+    left: "1500px",
+    className: "sitemap"
   }).createWidget();
   window.api.send("toMain", { request: "directory" });
   window.api.receive("fromMain", (data) => {
@@ -64,6 +65,7 @@ $(function () {
     if (typeof data === "object") {
       directoryData = data;
       let directory = new Widget(Date.now(), {
+        className: "directory",
         widgetType: "directory",
         directory: directoryData,
         left: "0px",
@@ -71,14 +73,15 @@ $(function () {
         width: "1530px",
         height: "910px"
       }).createWidget();
-    } else if (data == "toggleGrid") {
+    } else if (data === "toggleGrid") {
       toggleGrid();
     }
   });
 
   window.api.receive("fromDash", (data) => {
-    if (data.task == "create") {
-      if (data.widgetNumber == "add-widget-1") {
+    console.log(data.task);
+    if (data.task === "create") {
+      if (data.widgetNumber === "add-widget-1") {
         new Widget(Date.now(), {
           widgetType: "directory",
           directory: directoryData
@@ -90,7 +93,7 @@ $(function () {
         }).createWidget();
       }
     }
-    if (data.task == "move") {
+    if (data.task === "move") {
       $(".widget, .image-widget").draggable({
         grid: [30, 30],
         containment: ".board-content"
@@ -107,16 +110,33 @@ $(function () {
       });
       $(".widget, .image-widget").draggable("enable");
       $(".widget").resizable("enable");
-    } else if (data.task == "lockMove") {
+    } else if (data.task === "lockMove") {
       console.log("lock it down!");
       $(".widget, .image-widget").draggable("disable");
       $(".widget").resizable("disable");
-    } else if (data.task == "style") {
-      $(".widget").addClass("stylable");
-      styling = true;
-    } else if (data.task == "fontColor") {
-      console.log(data);
-      $("*").css("color", data.color);
+    } else if (data.task === "style") {
+      let selectors = data.widgets;
+      let bg = "background";
+      let font = "color";
+      for (let item in selectors) {
+        console.log(item);
+        let fontColor = selectors[item].fontColor;
+        let bgColor = selectors[item].bgColor;
+
+        if (item === "all") {
+          $(`*`).css(font, fontColor);
+        }
+        if (item === "directory") {
+          console.log(`styling directory`);
+          $(".directory").css(font, fontColor);
+          $(".directory").css(bg, bgColor);
+        }
+        if (item === "boardBg") {
+          $("body").css(bg, bgColor);
+        }
+
+        // additional text color widgets go here!
+      }
     }
   });
   $(document).on("click", ".stylable", function (e) {

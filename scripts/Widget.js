@@ -1,6 +1,7 @@
 export default class Widget {
   constructor(id, settings) {
     this.id = id;
+    this.className = settings.className;
     this.useDefault = settings.useDefault;
     this.widgetType = settings.widgetType;
     this.width = settings.width;
@@ -11,7 +12,7 @@ export default class Widget {
     this.movable = settings.movable;
     this.resizable = settings.resizable;
     this.isImage = settings.isImage;
-    this.baseWidget = `<div id="${id}">Widget</div>`;
+    this.baseWidget = `<div class="${this.className}" id="${id}">Widget</div>`;
     this.defaultSettings = {
       width: "120px",
       height: "120px",
