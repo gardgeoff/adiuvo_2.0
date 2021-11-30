@@ -7,6 +7,8 @@ export default class Widget {
     this.width = settings.width;
     this.height = settings.height;
     this.directory = settings.directory;
+    this.doctors = settings.doctors;
+    this.videos = settings.videos;
     this.xPos = settings.left;
     this.yPos = settings.top;
     this.movable = settings.movable;
@@ -51,14 +53,8 @@ export default class Widget {
       let listString = "";
 
       this.directory.map((item) => {
-        let flex = `<div class="${
-          item.category !== undefined ? item.category : ""
-        } directory-item align-items-center justify-content-between"><h2>${
-          item.salon_number
-        }</h2><div><ul><li>${item.name}</li><li>${item.owner}</li><li>${
-          item.phone
-        }</li></ul></div></div>`;
-        let newLine = `<ul><li>${item.name}</li><li>${item.owner}</li><li>${item.phone}</li></ul>`;
+        let flex = `<div class="${item.category} directory-item align-items-center justify-content-between"><h2>${item.number}</h2><div><ul><li>${item.name}</li><li>${item.owner}</li><li>${item.contact}</li></ul></div></div>`;
+        let newLine = `<ul><li>${item.name}</li><li>${item.owner}</li><li>${item.contact}</li></ul>`;
         listString += flex;
       });
       $("#" + this.id)
@@ -67,7 +63,6 @@ export default class Widget {
         .css({
           fontSize: "16px !important",
           minWidth: "120px",
-
           display: "flex",
           alignItems: "start",
           flexFlow: "column wrap",
@@ -83,11 +78,36 @@ export default class Widget {
       let remainder = $("#" + this.id).height() % 120;
       let newHeight = $("#" + this.id).height() + (120 - remainder);
       $("#" + this.id).css("height", newHeight);
+    } else if (this.widgetType === "mesImages") {
+      let totalImages = "";
+      let count = 1;
+      this.doctors.map((item) => {
+        let image = `<div style="margin: 10px" class="doctor-image-container"><img class="doctor-img" key=${item.key} src="https://img.youtube.com/vi/${item.key}/maxresdefault.jpg"/></div>`;
+        totalImages += image;
+      });
+
+      console.log(totalImages);
+      $("#" + this.id).html(totalImages);
+      $("#" + this.id)
+        .css({
+          display: "flex",
+          alignItems: "start",
+          flexFlow: " wrap",
+          overflow: "hidden",
+          position: "absolute",
+          justifyContent: "start",
+
+          alignContent: "start"
+        })
+        .addClass("resizable")
+        .addClass("sortable")
+        .addClass("draggable");
     } else {
       $("#" + this.id)
         .css({ width: "120px", height: "120px" })
         .addClass("widget");
     }
+    $("#" + this.id).addClass(this.className);
     return this;
   }
 }

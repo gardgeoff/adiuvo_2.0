@@ -1,6 +1,12 @@
 import Widget from "./Widget.js";
 
 $(function () {
+  let playState = {
+    doctorSelected: null,
+    videosSelected: [],
+    screen: "overview"
+  };
+
   let interactCount = 0;
   let directoryData;
   let xGrid = 16;
@@ -42,6 +48,9 @@ $(function () {
       element.scrollWidth > element.clientWidth
     );
   }
+  function videoSelect() {
+    $(".doctor-images").css("display", "none");
+  }
   const rgba2hex = (rgba) =>
     `#${rgba
       .match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/)
@@ -58,41 +67,24 @@ $(function () {
     top: "240px",
     left: "1500px",
     className: "sitemap"
-  }).createWidget();
-  window.api.send("toMain", { request: "directory" });
-  window.api.receive("fromMain", (data) => {
-    console.log(data);
-    if (typeof data === "object") {
-      directoryData = data;
-      let directory = new Widget(Date.now(), {
-        className: "directory",
-        widgetType: "directory",
-        directory: directoryData,
-        left: "0px",
-        top: "0px",
-        width: "1530px",
-        height: "910px"
-      }).createWidget();
-    } else if (data === "toggleGrid") {
-      toggleGrid();
-    }
   });
 
-  window.api.receive("fromDash", (data) => {
-    console.log(data.task);
-    if (data.task === "create") {
-      if (data.widgetNumber === "add-widget-1") {
-        new Widget(Date.now(), {
-          widgetType: "directory",
-          directory: directoryData
-        }).createWidget();
-      } else if (data.widgetNumber === "add-widget-2") {
-        new Widget(Date.now(), {
-          widgetType: "image",
-          useDefault: true
-        }).createWidget();
-      }
+  window.api.send("boardStart", true);
+  window.api.receive("fromMain", (data) => {
+    if (data === "toggleGrid") {
+      toggleGrid();
     }
+    console.log(data);
+    let images = new Widget(Date.now(), {
+      className: "doctor-images",
+      widgetType: "mesImages",
+      doctors: data.doctors,
+      videos: data.videos
+    }).createWidget();
+
+    $(".draggable").draggable({});
+  });
+  window.api.receive("fromDash", (data) => {
     if (data.task === "move") {
       $(".widget, .image-widget").draggable({
         grid: [30, 30],
@@ -137,6 +129,31 @@ $(function () {
 
         // additional text color widgets go here!
       }
+    } else if (data.task === "directory") {
+      if ($(".directory").length) {
+        $(".directory").remove();
+      }
+
+      let dir = [];
+      console.log(data.directory);
+
+      for (let item in data.directory) {
+        dir.push(data.directory[item]);
+      }
+      console.log(dir);
+      dir.shift();
+      dir.sort((a, b) => a.number - b.number);
+
+      let directory = new Widget(Date.now(), {
+        className: "directory",
+        widgetType: "directory",
+        directory: dir,
+        left: "0px",
+        top: "0px",
+        width: "1530px",
+        height: "910px"
+      }).createWidget();
+      console.log(directory);
     }
   });
   $(document).on("click", ".stylable", function (e) {
@@ -147,6 +164,14 @@ $(function () {
     styling = false;
     $(".widget").removeClass("stylable");
   });
+  $("body").on("click", ".doctor-img", function () {
+    console.log("clicked");
+    let key = $(this).attr("key");
+    playState.doctorSelected = key;
+    playState.screen = "video-select";
+    videoSelect();
+  });
+
   $("#filter-1").on("click", function () {
     $(".directory-item").hide(() => {
       $(".cat_1").show();

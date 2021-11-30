@@ -7,12 +7,22 @@
   background: none;
 }
 #render {
-  background: rgb(44, 44, 44);
+  background-image: url("../resources/images/v02g2245.bmp");
+  background-position: center center;
+  background-size: cover;
 }
 .grid:hover {
 }
 .grid-row {
   display: flex;
+}
+.doctor-image-container {
+  width: 300px;
+
+  display: inline-block;
+}
+.doctor-img {
+  width: 100%;
 }
 .board-content {
   width: 1920px;
@@ -27,7 +37,7 @@
   bottom: 0px;
   width: 1920px;
   height: 120px;
-  background: #79b4b7;
+  background: white;
   color: white;
   font-size: 40px;
 }

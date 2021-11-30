@@ -8,8 +8,17 @@ const {
 const path = require("path");
 const fs = require("fs");
 const { initializeApp } = require("firebase/app");
-const { getDatabase, set, ref, onValue } = require("firebase/database");
-const data = require("./scripts/directory.json");
+const {
+  getDatabase,
+  set,
+  ref,
+  onValue,
+  get,
+  child
+} = require("firebase/database");
+// const data = require("./scripts/directory.json");
+const mesDoctors = require("./scripts/mesDoctors.json");
+const mesVideos = require("./scripts/mesVideos.json");
 const settings = require("./applicationSettings.json");
 const firebaseConfig = {
   apiKey: "AIzaSyDvvfr7ozt5go6IxXaX4kP9HghFpDwON1Q",
@@ -27,9 +36,10 @@ const db = getDatabase(fbApp);
 let baseRef = `/pi_${settings.piid}`;
 let registerRef = ref(db, `${baseRef}/registered`);
 let widgetRef = ref(db, `/${baseRef}/widgets`);
+let directoryRef = ref(db, `${baseRef}/directory`);
 
 let restartRef = ref(db, `/${baseRef}/restart`);
-console.log(restartRef);
+
 let win, toolbar;
 function createToolBar() {
   if (toolbar == undefined) {
@@ -132,6 +142,14 @@ app.whenReady().then(() => {
       app.exit();
     }
   });
+
+  onValue(directoryRef, (snap) => {
+    let objDir = snap.val();
+    win.webContents.send("fromDash", {
+      task: "directory",
+      directory: objDir
+    });
+  });
   onValue(registerRef, (snap) => {
     let values = snap.val();
     registered = values;
@@ -142,7 +160,7 @@ app.whenReady().then(() => {
   });
   onValue(widgetRef, (snap) => {
     let value = snap.val();
-    console.log(value);
+
     win.webContents.send("fromDash", { task: "style", widgets: value });
   });
 
@@ -155,13 +173,13 @@ app.whenReady().then(() => {
   globalShortcut.register("escape", () => {
     win.setFullScreen(false);
   });
-  ipcMain.on("closeWin", (e, args) => {
-    toolbar.close();
-    toolbar = undefined;
-  });
-  ipcMain.on("toolbar", (e, args) => {
-    win.focus();
-    win.webContents.send("fromToolbar", args);
+  ipcMain.on("boardStart", (e, args) => {
+    if (settings.boardType === "mes") {
+      win.webContents.send("fromMain", {
+        doctors: mesDoctors,
+        videos: mesVideos
+      });
+    }
   });
   ipcMain.on("board", (e, args) => {
     if (args.touches) {
@@ -170,22 +188,31 @@ app.whenReady().then(() => {
       data.interactCount = totalCount;
       fs.writeFile("applicationSettings.json", JSON.stringify(data), (err) => {
         if (err) throw err;
-        console.log("wrote to file");
       });
     }
   });
   ipcMain.on("toMain", (e, args) => {
     if (args.request === "id") {
-      console.log("requesting id, sending id");
       win.webContents.send("fromMain", {
         id: settings.piid,
         registered: registered
       });
-    } else if (args.request === "directory") {
-      win.webContents.send("fromMain", data);
     }
   });
 });
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
+/*
+get(directoryref, snap => {
+  let map = snap.val();
+  let returnArr = []
+
+  map.map(item => {
+    let totalObj = {}
+    
+
+
+  })
+}) 
+*/

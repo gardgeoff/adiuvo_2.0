@@ -10,7 +10,13 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 contextBridge.exposeInMainWorld("api", {
   send: (channel, data) => {
-    let validChannels = ["closeWin", "toolbar", "board", "toMain"];
+    let validChannels = [
+      "closeWin",
+      "toolbar",
+      "board",
+      "toMain",
+      "boardStart"
+    ];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);
     }
