@@ -177,7 +177,8 @@ app.whenReady().then(() => {
     if (settings.boardType === "mes") {
       win.webContents.send("fromMain", {
         doctors: mesDoctors,
-        videos: mesVideos
+        videos: mesVideos,
+        boardType: settings.boardType
       });
     }
   });

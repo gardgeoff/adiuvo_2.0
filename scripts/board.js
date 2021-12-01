@@ -41,13 +41,6 @@ $(function () {
       gridOn = true;
     }
   }
-  toggleGrid();
-  function isOverflown(element) {
-    return (
-      element.scrollHeight > element.clientHeight ||
-      element.scrollWidth > element.clientWidth
-    );
-  }
   function videoSelect() {
     $(".doctor-images").css("display", "none");
   }
@@ -62,51 +55,36 @@ $(function () {
           .replace("NaN", "")
       )
       .join("")}`;
-  let siteMap = new Widget(Date.now(), {
-    widgetType: "sitemap",
-    top: "240px",
-    left: "1500px",
-    className: "sitemap"
-  });
 
-  window.api.send("boardStart", true);
+  function instantiate() {
+    window.api.send("boardStart", true);
+  }
   window.api.receive("fromMain", (data) => {
     if (data === "toggleGrid") {
       toggleGrid();
     }
-    console.log(data);
-    let images = new Widget(Date.now(), {
+
+    if (data.boardType === "mes") {
+      stageMes(data);
+    }
+  });
+
+  function stageMes(data) {
+    let docImages = new Widget(Date.now(), {
       className: "doctor-images",
       widgetType: "mesImages",
-      doctors: data.doctors,
-      videos: data.videos
+      doctors: data.doctors
     }).createWidget();
-
     $(".draggable").draggable({});
-  });
+    let vidImage = new Widget(Date.now(), {
+      className: "video-images",
+      widgetType: "mesImages",
+      doctors: data.videos
+    });
+  }
+  // all commands from the dashboard
   window.api.receive("fromDash", (data) => {
-    if (data.task === "move") {
-      $(".widget, .image-widget").draggable({
-        grid: [30, 30],
-        containment: ".board-content"
-      });
-      $(".widget").resizable({
-        grid: 10,
-        containment: ".board-content"
-      });
-      $(".image-widget").resizable({
-        grid: 30,
-        containment: ".board-content",
-        alsoResize: ".image-widget > image",
-        aspectRatio: true
-      });
-      $(".widget, .image-widget").draggable("enable");
-      $(".widget").resizable("enable");
-    } else if (data.task === "lockMove") {
-      console.log("lock it down!");
-      $(".widget, .image-widget").draggable("disable");
-      $(".widget").resizable("disable");
-    } else if (data.task === "style") {
+    if (data.task === "style") {
       let selectors = data.widgets;
       let bg = "background";
       let font = "color";
@@ -126,7 +104,6 @@ $(function () {
         if (item === "boardBg") {
           $("body").css(bg, bgColor);
         }
-
         // additional text color widgets go here!
       }
     } else if (data.task === "directory") {
@@ -156,14 +133,6 @@ $(function () {
       console.log(directory);
     }
   });
-  $(document).on("click", ".stylable", function (e) {
-    let id = $(this).attr("id");
-    let font = rgba2hex($(this).css("color"));
-    let bg = rgba2hex($(this).css("background-color"));
-    window.api.send("board", { toStyle: id, fontColor: font, background: bg });
-    styling = false;
-    $(".widget").removeClass("stylable");
-  });
   $("body").on("click", ".doctor-img", function () {
     console.log("clicked");
     let key = $(this).attr("key");
@@ -172,24 +141,5 @@ $(function () {
     videoSelect();
   });
 
-  $("#filter-1").on("click", function () {
-    $(".directory-item").hide(() => {
-      $(".cat_1").show();
-    });
-  });
-  $("#filter-2").on("click", function () {
-    $(".directory-item").hide(() => {
-      $(".cat_2").show();
-    });
-  });
-  $("#filter-show").on("click", function () {
-    $(".directory-item").show();
-  });
-  $(document).on("click", () => {
-    interactCount++;
-  });
-  setInterval(() => {
-    window.api.send("board", { touches: interactCount });
-    interactCount = 0;
-  }, 10000);
+  instantiate();
 });
