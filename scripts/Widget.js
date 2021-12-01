@@ -5,9 +5,10 @@ export default class Widget {
     this.useDefault = settings.useDefault;
     this.widgetType = settings.widgetType;
     this.width = settings.width;
+    this.hidden = settings.hidden;
     this.height = settings.height;
     this.directory = settings.directory;
-    this.doctors = settings.doctors;
+    this.imageArr = settings.imageArr;
     this.videos = settings.videos;
     this.xPos = settings.left;
     this.yPos = settings.top;
@@ -79,35 +80,65 @@ export default class Widget {
       let newHeight = $("#" + this.id).height() + (120 - remainder);
       $("#" + this.id).css("height", newHeight);
     } else if (this.widgetType === "mesImages") {
-      let totalImages = "";
-      let count = 1;
-      this.doctors.map((item) => {
-        let image = `<div style="margin: 10px" class="doctor-image-container"><img class="doctor-img" key=${item.key} src="https://img.youtube.com/vi/${item.key}/maxresdefault.jpg"/></div>`;
-        totalImages += image;
-      });
+      if (this.className === "doctor-images") {
+        let totalImages = "";
+        let count = 1;
+        this.imageArr.map((item) => {
+          let image = `<div style="margin: 10px" class="doctor-image-container"><img class="doctor-img" key=${item.key} src="https://img.youtube.com/vi/${item.key}/maxresdefault.jpg"/></div>`;
+          totalImages += image;
+        });
 
-      console.log(totalImages);
-      $("#" + this.id).html(totalImages);
-      $("#" + this.id)
-        .css({
-          display: "flex",
-          alignItems: "start",
-          flexFlow: " wrap",
-          overflow: "hidden",
-          position: "absolute",
-          justifyContent: "start",
+        console.log(totalImages);
+        $("#" + this.id).html(totalImages);
+        $("#" + this.id)
+          .css({
+            display: "flex",
+            alignItems: "start",
+            flexFlow: " wrap",
+            overflow: "hidden",
+            position: "absolute",
+            justifyContent: "start",
 
-          alignContent: "start"
-        })
-        .addClass("resizable")
-        .addClass("sortable")
-        .addClass("draggable");
+            alignContent: "start"
+          })
+          .addClass("resizable")
+          .addClass("sortable")
+          .addClass("draggable");
+      } else if (this.className === "doctor-videos") {
+        console.log("creating glide");
+        let glideBase = `
+        <div class="glide">
+          <div class="glide__track" data-glide-el="track">
+            <ul class="big-carousel glide__slides">
+
+            </ul>
+          </div>
+        </div>`;
+
+        $("#" + this.id).append(glideBase);
+        this.imageArr.map((item) => {
+          let carouselSlide = `
+          <li key=${item.key}  class="g-slide glide__slide">
+            <img class="glide-image" src="https://img.youtube.com/vi/${item.key}/maxresdefault.jpg" />
+          </li>`;
+          $(".big-carousel").append(carouselSlide);
+        });
+        new Glide(".glide", {
+          focusAt: "center",
+          slideWidth: 120,
+          perView: 3,
+          startAt: 2
+        }).mount();
+      }
     } else {
       $("#" + this.id)
         .css({ width: "120px", height: "120px" })
         .addClass("widget");
     }
     $("#" + this.id).addClass(this.className);
+    if (this.hidden) {
+      $("#" + this.id).css("display", "none");
+    }
     return this;
   }
 }

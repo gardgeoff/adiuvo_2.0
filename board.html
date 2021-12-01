@@ -20,6 +20,11 @@
     <script src="./scripts/jquery.ui.touch-punch.min.js"></script>
     <script src="./scripts/jquery.maphilight.min.js"></script>
     <script type="module" src="./scripts/board.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+    <link
+      rel="stylesheet"
+      href="node_modules/@glidejs/glide/dist/css/glide.core.min.css"
+    />
     <link rel="stylesheet" href="./style/reset.css" />
     <script src="https://use.fontawesome.com/f1f09572a8.js"></script>
     <link
@@ -31,12 +36,17 @@
   </head>
   <body>
     <div id="render">
-      <div class="board-content"></div>
-      <div class="d-flex justify-content-center align-items-center board-nav">
-        <button class="btn btn-blue m-2" id="filter-1">Category 1</button>
-        <button class="btn btn-blue m-2" id="filter-2">Category 2</button>
-        <button class="btn btn-blue m-2" id="filter-show">Show All</button>
+      <div class="board-content">
+        <div class="start">Start</div>
+        <iframe
+          class="youtube"
+          width="1440"
+          height="720"
+          src="https://www.youtube.com/embed/tgbNymZ7vqY"
+        ></iframe>
       </div>
+
+      <div class="board-nav"></div>
     </div>
   </body>
 </html>

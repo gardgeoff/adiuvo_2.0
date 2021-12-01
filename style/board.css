@@ -3,6 +3,19 @@
   height: 120px;
   outline: 0.5px solid rgb(97, 97, 97);
 }
+.start {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: #51b3d0;
+  color: white;
+  font-size: 1.75rem;
+  display: none;
+  padding: 0.5em 1.25em;
+}
+.start:hover {
+  cursor: pointer;
+}
 *::selection {
   background: none;
 }
@@ -10,6 +23,12 @@
   background-image: url("../resources/images/v02g2245.bmp");
   background-position: center center;
   background-size: cover;
+  background-repeat: no-repeat;
+}
+.youtube {
+  position: fixed;
+  top: 30px;
+  left: 240px;
 }
 .grid:hover {
 }
@@ -24,6 +43,9 @@
 .doctor-img {
   width: 100%;
 }
+.logo-img {
+  height: 200px;
+}
 .board-content {
   width: 1920px;
   height: 960px;
@@ -31,13 +53,43 @@
   background: rgba(255, 255, 255, 0.151);
   position: fixed;
 }
+.doctor-videos {
+  display: flex;
+  position: relative;
+  top: 15%;
+}
+.glide-image {
+  width: 100%;
+}
+.delete-item {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 2rem;
+  color: #51b3d0;
+}
+.delete-item:hover {
+  cursor: pointer;
+}
+.empty {
+  display: flex;
+}
+.nav-entry {
+  display: inline-block;
+  position: relative;
+}
+.glide {
+  width: 95%;
+}
 .board-nav {
+  display: flex;
+
   position: fixed;
 
   bottom: 0px;
   width: 1920px;
-  height: 120px;
-  background: white;
+  height: 200px;
+
   color: white;
   font-size: 40px;
 }

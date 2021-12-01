@@ -11,14 +11,16 @@ $(function () {
   let directoryData;
   let xGrid = 16;
   let yGrid = 9;
-  let gridOn = false;
+  let gridOn = true;
   let styling = false;
-  for (var i = 0; i < yGrid; i++) {
-    let newRow = `<div class="grid-row" id="row-${i}"></div>`;
-    $("#render").append(newRow);
-    for (var j = 0; j < xGrid; j++) {
-      let newBox = `<div class="grid" ></div>`;
-      $("#row-" + i).append(newBox);
+  if (gridOn) {
+    for (var i = 0; i < yGrid; i++) {
+      let newRow = `<div class="grid-row" id="row-${i}"></div>`;
+      $("#render").append(newRow);
+      for (var j = 0; j < xGrid; j++) {
+        let newBox = `<div class="grid" ></div>`;
+        $("#row-" + i).append(newBox);
+      }
     }
   }
   function makeMovable() {
@@ -42,8 +44,24 @@ $(function () {
     }
   }
   function videoSelect() {
-    $(".doctor-images").css("display", "none");
+    $(".doctor-images").fadeOut("slow", function () {
+      $(".doctor-videos").fadeIn("slow");
+      $(".start").fadeIn();
+    });
   }
+  function overview() {
+    playState.doctorSelected = null;
+    playState.screen = "overview";
+    $(".empty").empty();
+    $(".doctor-videos").fadeOut("slow", function () {
+      $(".doctor-images").fadeIn("slow");
+    });
+  }
+  function startPlaylist() {
+    $(".doctor-videos").fadeOut("slow", function () {});
+    $(".start").fadeOut("slow");
+  }
+  function videoPlayer() {}
   const rgba2hex = (rgba) =>
     `#${rgba
       .match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/)
@@ -73,15 +91,33 @@ $(function () {
     let docImages = new Widget(Date.now(), {
       className: "doctor-images",
       widgetType: "mesImages",
-      doctors: data.doctors
+      imageArr: data.doctors
+    }).createWidget();
+    let videoSlide = new Widget(Date.now(), {
+      className: "doctor-videos",
+      widgetType: "mesImages",
+      imageArr: data.videos,
+      hidden: true
     }).createWidget();
     $(".draggable").draggable({});
-    let vidImage = new Widget(Date.now(), {
-      className: "video-images",
-      widgetType: "mesImages",
-      doctors: data.videos
+    let bottomImages = [
+      "https://img.youtube.com/vi/FKdwndTViV0/mqdefault.jpg?0.21588005185990977",
+      "empty",
+      "https://img.youtube.com/vi/IfaAiTRP_RE/mqdefault.jpg?0.016445353745532576"
+    ];
+    bottomImages.map((item) => {
+      !(item == "empty")
+        ? $(".board-nav").append(`<img class="logo-img" src="${item}"/>`)
+        : $(".board-nav").append("<div class='empty'>");
     });
+    $(".draggable").draggable({});
   }
+  function addToPlayList(key, type) {
+    $(".empty").append(
+      `<div class="nav-entry"><i key="${key}" type="${type}" class="delete-item fa fa-times"></i> <img class="logo-img" src="https://img.youtube.com/vi/${key}/mqdefault.jpg"/></div>`
+    );
+  }
+
   // all commands from the dashboard
   window.api.receive("fromDash", (data) => {
     if (data.task === "style") {
@@ -139,6 +175,33 @@ $(function () {
     playState.doctorSelected = key;
     playState.screen = "video-select";
     videoSelect();
+    addToPlayList(playState.doctorSelected, "doctor");
+  });
+  $("body").on("click", ".delete-item", function () {
+    console.log("click");
+    let type = $(this).attr("type");
+
+    $(this).closest("div").remove();
+    if (type === "doctor") {
+      overview();
+    } else if (type === "video") {
+      let key = $(this).attr("key");
+      playState.videosSelected = playState.videosSelected.filter(
+        (item) => item != key
+      );
+      console.log(playState.videosSelected);
+    }
+  });
+  $("body").on("click", ".g-slide", function () {
+    let key = $(this).attr("key");
+    console.log(key);
+    addToPlayList(key, "video");
+
+    playState.videosSelected.push(key);
+    console.log(playState);
+  });
+  $(".start").on("click", function () {
+    startPlaylist();
   });
 
   instantiate();

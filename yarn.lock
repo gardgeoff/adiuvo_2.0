@@ -378,6 +378,11 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.6.0.tgz#e18ea901c84917f8dadd0185048a9d00573fe595"
   integrity sha512-Pz4+7HPzKvOFI1ICQ6pyUv/VgStEWq9IGiVaaV1cQLi66NIA1mD5INnY4CDNoVAxlkuZvDEUZ+cVHLQ8iwA2hQ==
 
+"@glidejs/glide@^3.5.2":
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/@glidejs/glide/-/glide-3.5.2.tgz#7012c5920ecf202bbda44d8526fc979984b6dd54"
+  integrity sha512-7jGciNJ2bQ4eZLSNlSZ+VAyW63kALf420CvkEpK4lEsUfWJq9odqimci0YCiyNyMUFB+pWHwLYyNc57dijYsCg==
+
 "@grpc/grpc-js@^1.3.2":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.4.2.tgz#273e9b81990b95fb9f3b043847e6861246a491a9"
@@ -912,11 +917,6 @@ crypto-browserify@^3.0.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-custom-electron-titlebar@^3.2.7:
-  version "3.2.7"
-  resolved "https://registry.yarnpkg.com/custom-electron-titlebar/-/custom-electron-titlebar-3.2.7.tgz#fb249d6180cbda074b1d392bea755fa0743012a8"
-  integrity sha512-KO/6e3r6YflfNUOzi5QHLwkLHBP+ICtHPo70u/kUIKR8UUkDTPb4a9i19q0uDZQcjkH6oqRvFCz9wEHeEpCgxw==
-
 dash-ast@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/dash-ast/-/dash-ast-1.0.0.tgz#12029ba5fb2f8aa6f0a861795b23c1b4b6c27d37"
@@ -1250,6 +1250,13 @@ get-symbol-description@^1.0.0:
   dependencies:
     call-bind "^1.0.2"
     get-intrinsic "^1.1.1"
+
+glide@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/glide/-/glide-0.2.0.tgz#d62da76bae30ebc2e488da231e4214105bbd73d2"
+  integrity sha1-1i2na64w68LkiNojHkIUEFu9c9I=
+  dependencies:
+    tween.js "~0.14.0"
 
 glob@^7.1.0, glob@^7.1.3:
   version "7.2.0"
@@ -2340,6 +2347,11 @@ tunnel@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/tunnel/-/tunnel-0.0.6.tgz#72f1314b34a5b192db012324df2cc587ca47f92c"
   integrity sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==
+
+tween.js@~0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/tween.js/-/tween.js-0.14.0.tgz#22df2bd40947e3421901b9fd091bfa43829e2668"
+  integrity sha1-It8r1AlH40IZAbn9CRv6Q4KeJmg=
 
 type-fest@^0.13.1:
   version "0.13.1"
