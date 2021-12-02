@@ -1,7 +1,6 @@
 .grid {
   width: 120px;
   height: 120px;
-  outline: 0.5px solid rgb(97, 97, 97);
 }
 .start {
   position: fixed;
@@ -16,28 +15,78 @@
 .start:hover {
   cursor: pointer;
 }
-*::selection {
+/* *::selection {
   background: none;
+} */
+.mes-logo {
+  display: none;
+}
+
+.glide-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 63%;
+  left: 45%;
+}
+.glide-arrow {
+  background: none;
+  color: rgb(16, 62, 104);
+  outline: none;
+  border: none;
+  font-size: 5rem;
+}
+.fa-arrow-circle-right {
+  margin-left: 50px;
+}
+.fa-arrow-circle-left {
+  margin-right: 50px;
 }
 #render {
-  background-image: url("../resources/images/v02g2245.bmp");
-  background-position: center center;
+  background: none;
+  background-image: url("../resources/images/v02g2245.png");
   background-size: cover;
-  background-repeat: no-repeat;
+  background-position: center center;
 }
 .youtube {
+  display: none;
   position: fixed;
   top: 30px;
   left: 240px;
 }
-.grid:hover {
+.reset {
+  position: fixed;
+  bottom: 300px;
+  right: 50px;
+  width: 240px;
+  background: #f7f7f7;
+  border-radius: 4px;
+  font-size: 32px;
+  color: rgb(16, 62, 104);
 }
+
+.video-list-item {
+  color: rgb(16, 62, 104);
+  font-size: 28px;
+}
+.video-list-item:hover {
+  cursor: pointer;
+}
+.video-list {
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  right: 60px;
+  top: 60px;
+  font-family: "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
 .grid-row {
   display: flex;
 }
 .doctor-image-container {
   width: 300px;
-
   display: inline-block;
 }
 .doctor-img {
@@ -49,14 +98,13 @@
 .board-content {
   width: 1920px;
   height: 960px;
-
-  background: rgba(255, 255, 255, 0.151);
   position: fixed;
 }
+
 .doctor-videos {
   display: flex;
   position: relative;
-  top: 15%;
+  top: 30%;
 }
 .glide-image {
   width: 100%;
@@ -67,6 +115,8 @@
   right: 0;
   font-size: 2rem;
   color: #51b3d0;
+  padding: 3px 5px;
+  border: 3px solid #51b3d0;
 }
 .delete-item:hover {
   cursor: pointer;
@@ -79,13 +129,12 @@
   position: relative;
 }
 .glide {
-  width: 95%;
+  width: 100%;
+  left: -3%;
 }
 .board-nav {
   display: flex;
-
   position: fixed;
-
   bottom: 0px;
   width: 1920px;
   height: 200px;
@@ -100,6 +149,15 @@
 }
 .stylable:hover {
   background: rgba(32, 189, 32, 0.562) !important;
+}
+.screensaver {
+  width: 1920px;
+  height: 1080px;
+  position: fixed;
+  background: rgb(16, 62, 104);
+  z-index: 1000;
+  top: 0;
+  left: 0;
 }
 ul,
 li {

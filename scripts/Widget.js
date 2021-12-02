@@ -84,28 +84,24 @@ export default class Widget {
         let totalImages = "";
         let count = 1;
         this.imageArr.map((item) => {
-          let image = `<div style="margin: 10px" class="doctor-image-container"><img class="doctor-img" key=${item.key} src="https://img.youtube.com/vi/${item.key}/maxresdefault.jpg"/></div>`;
+          console.log(item.name);
+          let image = `<div style="margin: 10px" class="doctor-image-container"><img name="${item.name}" class="doctor-img" key=${item.key} src="https://img.youtube.com/vi/${item.key}/maxresdefault.jpg"/></div>`;
           totalImages += image;
         });
 
         console.log(totalImages);
         $("#" + this.id).html(totalImages);
-        $("#" + this.id)
-          .css({
-            display: "flex",
-            alignItems: "start",
-            flexFlow: " wrap",
-            overflow: "hidden",
-            position: "absolute",
-            justifyContent: "start",
+        $("#" + this.id).css({
+          display: "flex",
+          alignItems: "start",
+          flexFlow: " wrap",
+          overflow: "hidden",
+          position: "absolute",
+          justifyContent: "start",
 
-            alignContent: "start"
-          })
-          .addClass("resizable")
-          .addClass("sortable")
-          .addClass("draggable");
+          alignContent: "start"
+        });
       } else if (this.className === "doctor-videos") {
-        console.log("creating glide");
         let glideBase = `
         <div class="glide">
           <div class="glide__track" data-glide-el="track">
@@ -113,21 +109,25 @@ export default class Widget {
 
             </ul>
           </div>
+          <div class="glide-controls glide__arrows" data-glide-el="controls">
+            <button class="glide-arrow glide__arrow glide__arrow--left" data-glide-dir="<"><i class="fa fa-arrow-circle-left"></i></button>
+            <button class="glide-arrow glide__arrow glide__arrow--right" data-glide-dir=">"><i class="fa fa-arrow-circle-right"></i></button>
+          </div>
         </div>`;
 
         $("#" + this.id).append(glideBase);
         this.imageArr.map((item) => {
           let carouselSlide = `
-          <li key=${item.key}  class="g-slide glide__slide">
+          <li key=${item.key}  name="${item.name}" class="g-slide glide__slide">
             <img class="glide-image" src="https://img.youtube.com/vi/${item.key}/maxresdefault.jpg" />
           </li>`;
           $(".big-carousel").append(carouselSlide);
         });
         new Glide(".glide", {
           focusAt: "center",
-          slideWidth: 120,
           perView: 3,
-          startAt: 2
+          peek: 100,
+          startAt: 1
         }).mount();
       }
     } else {

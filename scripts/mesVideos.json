@@ -9,7 +9,7 @@
   { "key": "Gu56XKYNtqM", "name": "KP" },
   { "key": "gdy-d4pFzKk", "name": "KP AC" },
   { "key": "YGQ54Dd2a_A", "name": "Chiropractic" },
-  { "key": "xts8GeL6l8o", "name": "Opioids Guidelines" },
-  { "key": "U4GWNPKKvfk", "name": "Marijuana Guidelines" },
+  { "key": "xts8GeL6l8o", "name": "Opioids Guidelines", "cat": "guidelines" },
+  { "key": "U4GWNPKKvfk", "name": "Marijuana Guidelines", "cat": "guidelines" },
   { "key": "bTE9BxjRPKc", "name": "Electromyography" }
 ]

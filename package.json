@@ -16,6 +16,7 @@
   "dependencies": {
     "@glidejs/glide": "^3.5.2",
     "browserify": "^17.0.0",
+    "electron-packager": "^15.4.0",
     "firebase": "^9.2.0",
     "glide": "^0.2.0",
     "path": "^0.12.7"
