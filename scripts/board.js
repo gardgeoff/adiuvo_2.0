@@ -21,7 +21,25 @@ $(function () {
       }
     }
   }
+  function shuffle(array) {
+    let currentIndex = array.length,
+      randomIndex;
 
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex]
+      ];
+    }
+
+    return array;
+  }
   function makeMovable() {
     $(".widget, .image-widget").draggable({
       grid: [30, 30],
@@ -127,6 +145,72 @@ $(function () {
   });
 
   function stageMes(data) {
+    let totalImage = [];
+    let width = "auto";
+    let height = "auto";
+    let quality = "mqdefault";
+    data.doctors.map((item) => {
+      let src = `https://img.youtube.com/vi/${item.key}/${quality}.jpg`;
+      let imgString = `
+      <img 
+        src="${src}"/>
+      `;
+      totalImage.push(imgString);
+    });
+    data.videos.map((item) => {
+      let src = `https://img.youtube.com/vi/${item.key}/${quality}.jpg`;
+      let imgString = `
+      <img 
+        src="${src}"/>
+      `;
+      totalImage.push(imgString);
+    });
+    shuffle(totalImage);
+    let half = Math.ceil(totalImage.length / 2);
+    let firstHalf = totalImage.slice(0, half);
+    let secondHalf = totalImage.slice(-half);
+
+    let topGlideBase = `
+    <div class="glide screen-top-glide">
+      <div class="glide__track" data-glide-el="track">
+        <ul class="tgs glide__slides"></ul>
+      </div>
+    </div>
+    `;
+    let bottomGlideBase = `
+    <div class="glide screen-bottom-glide">
+      <div class="glide__track" data-glide-el="track">
+        <ul class="bgs glide__slides"></ul>
+      </div>
+    </div>
+    
+    `;
+    $(".top-images").html(topGlideBase);
+    $(".bottom-images").html(bottomGlideBase);
+
+    firstHalf.map((item) => {
+      let topImage = `<li class="glide__slide">${item}</li>`;
+      $(".tgs").append(topImage);
+    });
+    secondHalf.map((item) => {
+      let bottomImage = `<li class="glide__slide">${item}</li>`;
+      $(".bgs").append(bottomImage);
+    });
+    new Glide(".screen-bottom-glide", {
+      type: "carousel",
+      perView: 5,
+      autoplay: 0.1,
+      animationDuration: 10000,
+      animationTimingFunc: "linear"
+    }).mount();
+    new Glide(".screen-top-glide", {
+      type: "carousel",
+      perView: 5,
+      autoplay: 0.1,
+      animationDuration: 10000,
+      direction: "rtl",
+      animationTimingFunc: "linear"
+    }).mount();
     let docImages = new Widget(Date.now(), {
       className: "doctor-images",
       widgetType: "mesImages",
@@ -138,7 +222,6 @@ $(function () {
       imageArr: data.videos,
       hidden: true
     }).createWidget();
-    $(".draggable").draggable({});
     let bottomImages = [
       {
         url: "https://img.youtube.com/vi/FKdwndTViV0/mqdefault.jpg?0.21588005185990977",
@@ -157,7 +240,6 @@ $(function () {
           )
         : $(".board-nav").append("<div class='empty'>");
     });
-    $(".draggable").draggable({});
   }
   function addToPlayList(key, type) {
     $(".empty").append(

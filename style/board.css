@@ -15,13 +15,23 @@
 .start:hover {
   cursor: pointer;
 }
+
+.bottom-images {
+  display: Flex;
+  width: 1920px;
+  justify-content: center;
+  position: absolute;
+  bottom: 25px;
+}
+
+/*keyframe animations*/
+
 /* *::selection {
   background: none;
 } */
 .mes-logo {
   display: none;
 }
-
 .glide-controls {
   display: flex;
   justify-content: center;
@@ -128,7 +138,7 @@
   display: inline-block;
   position: relative;
 }
-.glide {
+.vid-select-glide {
   width: 100%;
   left: -3%;
 }
@@ -150,15 +160,21 @@
 .stylable:hover {
   background: rgba(32, 189, 32, 0.562) !important;
 }
+.top-images {
+  position: relative;
+  top: 25px;
+}
 .screensaver {
+  overflow: hidden;
   width: 1920px;
   height: 1080px;
   position: fixed;
-  background: rgb(16, 62, 104);
+  background: url("../resources/images/v02g2245.png");
   z-index: 1000;
   top: 0;
   left: 0;
 }
+
 ul,
 li {
   margin: 0;
@@ -167,6 +183,7 @@ li {
 ul {
   padding: 5px;
 }
+
 .directory-item {
   display: flex;
 }

@@ -103,7 +103,7 @@ export default class Widget {
         });
       } else if (this.className === "doctor-videos") {
         let glideBase = `
-        <div class="glide">
+        <div class="glide vid-select-glide">
           <div class="glide__track" data-glide-el="track">
             <ul class="big-carousel glide__slides">
 
@@ -123,7 +123,7 @@ export default class Widget {
           </li>`;
           $(".big-carousel").append(carouselSlide);
         });
-        new Glide(".glide", {
+        new Glide(".vid-select-glide", {
           focusAt: "center",
           perView: 3,
           peek: 100,
