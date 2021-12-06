@@ -17,8 +17,8 @@ const {
   child
 } = require("firebase/database");
 // const data = require("./scripts/directory.json");
-const mesDoctors = require("./scripts/mesDoctors.json");
-const mesVideos = require("./scripts/mesVideos.json");
+let mesDoctors = require("./scripts/mesDoctors.json");
+let mesVideos = require("./scripts/mesVideos.json");
 const settings = require("./applicationSettings.json");
 const firebaseConfig = {
   apiKey: "AIzaSyDvvfr7ozt5go6IxXaX4kP9HghFpDwON1Q",
@@ -37,10 +37,15 @@ let baseRef = `/pi_${settings.piid}`;
 let registerRef = ref(db, `${baseRef}/registered`);
 let widgetRef = ref(db, `/${baseRef}/widgets`);
 let directoryRef = ref(db, `${baseRef}/directory`);
-let docRef = ref(db, `pi_${settings.piid}/mes/doc`);
+let docRef = ref(db, `pi_${settings.piid}/mes/docs`);
+let procedureRef = ref(db, `pi_${settings.piid}/mes/procedures`);
 
 let restartRef = ref(db, `/${baseRef}/restart`);
-
+function updateMes() {
+  set(docRef, mesDoctors);
+  set(procedureRef, mesVideos);
+}
+updateMes();
 let win, toolbar;
 function createToolBar() {
   if (toolbar == undefined) {
@@ -136,6 +141,7 @@ async function createWindow() {
 }
 app.whenReady().then(() => {
   createWindow();
+
   onValue(restartRef, (snap) => {
     let falseTrue = snap.val();
     if (falseTrue) {
@@ -164,6 +170,40 @@ app.whenReady().then(() => {
 
     win.webContents.send("fromDash", { task: "style", widgets: value });
   });
+  onValue(docRef, (snap) => {
+    let docs = snap.val();
+    let tempArr = [];
+    for (let item in docs) {
+      tempArr.push(docs[item]);
+    }
+    mesDoctors = tempArr;
+    fs.writeFile(
+      "./scripts/mesDoctors.json",
+      JSON.stringify(mesDoctors),
+      (err) => {
+        if (err) throw err;
+      }
+    );
+    win.webContents.send("fromDash", {
+      task: "updateDoc",
+      docs: docs
+    });
+  });
+  onValue(procedureRef, (snap) => {
+    let procedures = snap.val();
+    mesVideos = procedures;
+    fs.writeFile(
+      "./scripts/mesVideos.json",
+      JSON.stringify(mesVideos),
+      (err) => {
+        if (err) throw err;
+      }
+    );
+    win.webContents.send("fromDash", {
+      task: "updateProcedures",
+      procedures: procedures
+    });
+  });
 
   globalShortcut.register("f5", () => {
     if (toolbar) {
@@ -174,6 +214,7 @@ app.whenReady().then(() => {
   globalShortcut.register("escape", () => {
     win.setFullScreen(false);
   });
+
   ipcMain.on("boardStart", (e, args) => {
     if (settings.boardType === "mes") {
       win.webContents.send("fromMain", {

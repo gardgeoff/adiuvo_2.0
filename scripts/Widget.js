@@ -93,11 +93,9 @@ export default class Widget {
         $("#" + this.id).html(totalImages);
         $("#" + this.id).css({
           display: "flex",
-          alignItems: "start",
           flexFlow: " wrap",
           overflow: "hidden",
           position: "absolute",
-          justifyContent: "start",
 
           alignContent: "start"
         });

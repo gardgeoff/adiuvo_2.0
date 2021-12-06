@@ -10,7 +10,6 @@ $(function () {
   let xGrid = 16;
   let yGrid = 9;
   let gridOn = true;
-
   if (gridOn) {
     for (var i = 0; i < yGrid; i++) {
       let newRow = `<div class="grid-row" id="row-${i}"></div>`;
@@ -93,7 +92,9 @@ $(function () {
   function overview() {
     playState.doctorSelected = null;
     playState.screen = "overview";
+
     $(".empty").empty();
+    $(".start").fadeOut("slow");
     $(".doctor-videos").fadeOut("slow", function () {
       $(".doctor-images").fadeIn("slow");
     });
@@ -143,14 +144,16 @@ $(function () {
       stageMes(data);
     }
   });
-  let timeCounter = 15000;
+
+  let timeCounter = 30000;
+
   let timeId;
   function startTimer() {
     timeId = window.setTimeout(() => toggleScreenSaver(true), timeCounter);
   }
   $(document).on("click", function () {
     if (playState.screen === "overview") {
-      timeCounter = 10000;
+      timeCounter = 30000;
     }
     if (playState.screen === "screensaver") {
       toggleScreenSaver(false);
@@ -214,6 +217,7 @@ $(function () {
     let width = "auto";
     let height = "auto";
     let quality = "mqdefault";
+    console.log(data);
     data.doctors.map((item) => {
       let src = `https://img.youtube.com/vi/${item.key}/${quality}.jpg`;
       let imgString = `
@@ -279,6 +283,11 @@ $(function () {
       widgetType: "mesImages",
       imageArr: data.doctors
     }).createWidget();
+    if (data.doctors.length > 24) {
+      $(".doctor-image-container").css({
+        width: "240px"
+      });
+    }
     let videoSlide = new Widget(Date.now(), {
       className: "doctor-videos",
       widgetType: "mesImages",
@@ -330,6 +339,8 @@ $(function () {
       $(".empty").empty();
       $(".doctor-images").fadeIn("slow");
     });
+    timeCounter = 30000;
+    startTimer();
   }
   window.api.receive("fromDash", (data) => {
     if (data.task === "style") {
@@ -378,6 +389,34 @@ $(function () {
         height: "910px"
       }).createWidget();
       console.log(directory);
+    } else if (data.task === "updateDoc") {
+      let docs = [];
+      for (let item in data.docs) {
+        docs.push(data.docs[item]);
+      }
+
+      $(".doctor-images").remove();
+      new Widget(Date.now(), {
+        className: "doctor-images",
+        widgetType: "mesImages",
+        imageArr: docs
+      }).createWidget();
+      if (docs.length > 24) {
+        $(".doctor-image-container").css({ width: "240px" });
+      }
+    } else if (data.task == " updateProcedures") {
+      // let procedures = [];
+      // console.log(data.procedures);
+      // for (let item in data.procedures) {
+      //   procedures.push(data.procedures[item]);
+      // }
+      // $(".doctor-videos").remove();
+      // new Widget(Date.now(), {
+      //   className: "doctor-videos",
+      //   widgetType: "mesImages",
+      //   imageArr: procedures,
+      //   hidden: true
+      // }).createWidget();
     }
   });
   $("body").on("click", ".doctor-img", function () {
