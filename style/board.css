@@ -164,13 +164,23 @@
   position: relative;
   top: 25px;
 }
+.insta {
+  height: 180px;
+}
+.center-me {
+  text-align: center;
+}
+.award {
+  height: 150px;
+}
 .screensaver {
+  opacity: 0;
   overflow: hidden;
   width: 1920px;
   height: 1080px;
   position: fixed;
   background: url("../resources/images/v02g2245.png");
-  z-index: 1000;
+  z-index: -1;
   top: 0;
   left: 0;
 }

@@ -37,6 +37,7 @@ let baseRef = `/pi_${settings.piid}`;
 let registerRef = ref(db, `${baseRef}/registered`);
 let widgetRef = ref(db, `/${baseRef}/widgets`);
 let directoryRef = ref(db, `${baseRef}/directory`);
+let docRef = ref(db, `pi_${settings.piid}/mes/doc`);
 
 let restartRef = ref(db, `/${baseRef}/restart`);
 

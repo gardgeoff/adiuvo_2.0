@@ -143,9 +143,74 @@ $(function () {
       stageMes(data);
     }
   });
+  let timeCounter = 15000;
+  let timeId;
+  function startTimer() {
+    timeId = window.setTimeout(() => toggleScreenSaver(true), timeCounter);
+  }
+  $(document).on("click", function () {
+    if (playState.screen === "overview") {
+      timeCounter = 10000;
+    }
+    if (playState.screen === "screensaver") {
+      toggleScreenSaver(false);
+    }
+  });
+  function toggleScreenSaver(on) {
+    if (on) {
+      if (playState.screen === "overview") {
+        playState.screen = "screensaver";
 
+        $(".screensaver").css("z-index", 1000).animate(
+          {
+            opacity: 1
+          },
+          1000
+        );
+      }
+    } else {
+      playState.screen = "overview";
+      $(".screensaver").animate(
+        {
+          opacity: 0
+        },
+        1000,
+        function () {
+          $(".screensaver").css("z-index", -1);
+        }
+      );
+      startTimer();
+    }
+  }
+  startTimer();
   function stageMes(data) {
-    let totalImage = [];
+    let totalImage = [
+      `<img class="insta"  src="./resources/images/slides/80r08ucx.bmp" alt="">`,
+      `<img class="insta" src="./resources/images/slides/di2ebmix.bmp" alt="">`,
+      `<img class="insta" src="./resources/images/slides/dr71ty5r.bmp" alt="">`,
+      `<img class="insta" src="./resources/images/slides/dvrm5h9u.bmp" alt="">`,
+      `<img class="insta" src="./resources/images/slides/ijk1slio.bmp" alt="">`,
+      `<img class="insta" src="./resources/images/slides/iwu2u19c.bmp" alt="">`,
+      `<img class="insta" src="./resources/images/slides/jnm1bnfi.bmp" alt="">`,
+      `<img class="insta" src="./resources/images/slides/mjx2wub9.bmp" alt="">`,
+      `<img class="insta" src="./resources/images/slides/q8ipjzz4.bmp" alt="">`
+    ];
+    let awardImages = [
+      `<img class="award" src="./resources/images/logos/2019logo.webp" alt="">`,
+      `<img class="award" src="./resources/images/logos/2019readerslogo.webp" alt="">`,
+      `<img class="award" src="./resources/images/logos/2020FavoriteReadersChoice-1024x1024-removebg-preview.png" alt="">`,
+      `<img class="award" src="./resources/images/logos/2020WinnerReadersChoice-1024x1024-removebg-preview.png" alt="">`,
+      `<img class="award" src="./resources/images/logos/bestbusiness2020.webp" alt="">`,
+      `<img class="award" src="./resources/images/logos/emilhannabimd-tucson.webp" alt="">`,
+      `<img class="award" src="./resources/images/logos/MicrosoftTeams-image-3-1024x846.png" alt="">`,
+      `<img class="award" src="./resources/images/logos/ReadersChoice-BestOfTucsonAward-thumb-removebg-preview.png" alt="">`,
+      `<img class="award" src="./resources/images/logos/threebestaward.webp" alt="">`,
+      `<img class="award" src="./resources/images/logos/threebestaward2020.webp" alt="">`,
+      `<img class="award" src="./resources/images/logos/top32020-1024x1024-removebg-preview.png" alt="">`
+    ];
+
+    shuffle(awardImages);
+
     let width = "auto";
     let height = "auto";
     let quality = "mqdefault";
@@ -167,8 +232,6 @@ $(function () {
     });
     shuffle(totalImage);
     let half = Math.ceil(totalImage.length / 2);
-    let firstHalf = totalImage.slice(0, half);
-    let secondHalf = totalImage.slice(-half);
 
     let topGlideBase = `
     <div class="glide screen-top-glide">
@@ -183,19 +246,19 @@ $(function () {
         <ul class="bgs glide__slides"></ul>
       </div>
     </div>
-    
     `;
     $(".top-images").html(topGlideBase);
     $(".bottom-images").html(bottomGlideBase);
 
-    firstHalf.map((item) => {
-      let topImage = `<li class="glide__slide">${item}</li>`;
+    totalImage.map((item) => {
+      let topImage = `<li class="center-me glide__slide">${item}</li>`;
       $(".tgs").append(topImage);
     });
-    secondHalf.map((item) => {
-      let bottomImage = `<li class="glide__slide">${item}</li>`;
+    awardImages.map((item) => {
+      let bottomImage = `<li class="center-me glide__slide">${item}</li>`;
       $(".bgs").append(bottomImage);
     });
+
     new Glide(".screen-bottom-glide", {
       type: "carousel",
       perView: 5,
