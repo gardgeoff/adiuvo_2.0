@@ -191,7 +191,13 @@ app.whenReady().then(() => {
   });
   onValue(procedureRef, (snap) => {
     let procedures = snap.val();
-    mesVideos = procedures;
+    let tempArr = [];
+    for (let item in procedures) {
+      tempArr.push(procedures[item]);
+    }
+
+    mesVideos = tempArr;
+
     fs.writeFile(
       "./scripts/mesVideos.json",
       JSON.stringify(mesVideos),

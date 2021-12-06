@@ -20,6 +20,7 @@ $(function () {
       }
     }
   }
+  // knuth shuffle foundon stackoverflow
   function shuffle(array) {
     let currentIndex = array.length,
       randomIndex;
@@ -39,26 +40,6 @@ $(function () {
 
     return array;
   }
-  function makeMovable() {
-    $(".widget, .image-widget").draggable({
-      grid: [30, 30],
-      containment: ".board-content"
-    });
-    $(".widget").resizable({
-      grid: 10,
-      containment: ".board-content"
-    });
-  }
-  function toggleGrid() {
-    if (gridOn) {
-      $(".grid").css("outline", "none");
-      gridOn = false;
-    } else {
-      $(".grid").css("outline", "0.5px solid rgb(97, 97, 97)");
-      gridOn = true;
-    }
-  }
-
   function selectVideo(param) {
     let urlString = `https://www.youtube.com/embed/${param}`;
     let options =
@@ -213,9 +194,6 @@ $(function () {
     ];
 
     shuffle(awardImages);
-
-    let width = "auto";
-    let height = "auto";
     let quality = "mqdefault";
     console.log(data);
     data.doctors.map((item) => {
