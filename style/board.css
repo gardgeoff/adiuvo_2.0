@@ -97,6 +97,7 @@
 }
 .doctor-image-container {
   width: 280px;
+  box-shadow: 5px 5px 5px #3a3a3a63;
   display: inline-block;
 }
 .doctor-images {
@@ -119,7 +120,7 @@
   position: fixed;
 }
 
-.doctor-videos {
+.procedure-videos {
   display: flex;
   position: relative;
   top: 30%;
@@ -143,7 +144,7 @@
 }
 .nav-item,
 .logo-img {
-  border: 5px solid white;
+  border: 2px solid rgb(16, 62, 104);
 }
 .empty {
   display: flex;

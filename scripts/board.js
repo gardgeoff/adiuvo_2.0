@@ -53,7 +53,7 @@ $(function () {
   }
   function videoSelect() {
     $(".doctor-images").fadeOut("slow", function () {
-      $(".doctor-videos").fadeIn("slow");
+      $(".procedure-videos").fadeIn("slow");
       $(".start").fadeIn();
     });
   }
@@ -73,16 +73,19 @@ $(function () {
   function overview() {
     playState.doctorSelected = null;
     playState.screen = "overview";
-
+    playState.videosSelected = [];
+    clearTimeout(timeId);
+    startTimer();
+    $(".g-slide").css("border", "none");
     $(".empty").empty();
     $(".start").fadeOut("slow");
-    $(".doctor-videos").fadeOut("slow", function () {
+    $(".procedure-videos").fadeOut("slow", function () {
       $(".doctor-images").fadeIn("slow");
     });
   }
   function startPlaylist() {
     playState.screen = "videoPlayer";
-    $(".doctor-videos").fadeOut("slow", function () {});
+    $(".procedure-videos").fadeOut("slow", function () {});
     $(".start").fadeOut("slow", function () {
       $(".video-list").css("display", "flex").hide().fadeIn("slow");
       playState.videosSelected.unshift({ name: "About", key: "FKdwndTViV0" });
@@ -132,14 +135,7 @@ $(function () {
   function startTimer() {
     timeId = window.setTimeout(() => toggleScreenSaver(true), timeCounter);
   }
-  $(document).on("click", function () {
-    if (playState.screen === "overview") {
-      timeCounter = 30000;
-    }
-    if (playState.screen === "screensaver") {
-      toggleScreenSaver(false);
-    }
-  });
+
   function toggleScreenSaver(on) {
     if (on) {
       if (playState.screen === "overview") {
@@ -168,7 +164,7 @@ $(function () {
   }
   startTimer();
   function stageMes(data) {
-    let totalImage = [
+    let totalImages = [
       `<img class="insta"  src="./resources/images/slides/80r08ucx.bmp" alt="">`,
       `<img class="insta" src="./resources/images/slides/di2ebmix.bmp" alt="">`,
       `<img class="insta" src="./resources/images/slides/dr71ty5r.bmp" alt="">`,
@@ -202,7 +198,7 @@ $(function () {
       <img 
         src="${src}"/>
       `;
-      totalImage.push(imgString);
+      totalImages.push(imgString);
     });
     data.videos.map((item) => {
       let src = `https://img.youtube.com/vi/${item.key}/${quality}.jpg`;
@@ -210,10 +206,10 @@ $(function () {
       <img 
         src="${src}"/>
       `;
-      totalImage.push(imgString);
+      totalImages.push(imgString);
     });
-    shuffle(totalImage);
-    let half = Math.ceil(totalImage.length / 2);
+    shuffle(totalImages);
+    let half = Math.ceil(totalImages.length / 2);
 
     let topGlideBase = `
     <div class="glide screen-top-glide">
@@ -232,7 +228,7 @@ $(function () {
     $(".top-images").html(topGlideBase);
     $(".bottom-images").html(bottomGlideBase);
 
-    totalImage.map((item) => {
+    totalImages.map((item) => {
       let topImage = `<li class="center-me glide__slide">${item}</li>`;
       $(".tgs").append(topImage);
     });
@@ -266,8 +262,9 @@ $(function () {
         width: "240px"
       });
     }
+    console.log(data.videos);
     let videoSlide = new Widget(Date.now(), {
-      className: "doctor-videos",
+      className: "procedure-videos",
       widgetType: "mesImages",
       imageArr: data.videos,
       hidden: true
@@ -309,15 +306,18 @@ $(function () {
   function reset() {
     playState.screen = "overview";
     $(".reset").fadeOut("slow");
+    $(".g-slide").css("border", "none");
     $(".video-list").fadeOut("slow");
+    $(".video-list").empty();
     $(".youtube").fadeOut("slow", function () {
       playState.doctorSelected = null;
       playState.videosSelected = [];
+      console.log(playState.videosSelected);
       playState.screen = "overview";
       $(".empty").empty();
       $(".doctor-images").fadeIn("slow");
     });
-    timeCounter = 30000;
+    clearTimeout(timeId);
     startTimer();
   }
   window.api.receive("fromDash", (data) => {
@@ -326,7 +326,6 @@ $(function () {
       let bg = "background";
       let font = "color";
       for (let item in selectors) {
-        console.log(item);
         let fontColor = selectors[item].fontColor;
         let bgColor = selectors[item].bgColor;
 
@@ -348,12 +347,10 @@ $(function () {
       }
 
       let dir = [];
-      console.log(data.directory);
 
       for (let item in data.directory) {
         dir.push(data.directory[item]);
       }
-      console.log(dir);
       dir.shift();
       dir.sort((a, b) => a.number - b.number);
 
@@ -366,7 +363,6 @@ $(function () {
         width: "1530px",
         height: "910px"
       }).createWidget();
-      console.log(directory);
     } else if (data.task === "updateDoc") {
       let docs = [];
       for (let item in data.docs) {
@@ -383,22 +379,21 @@ $(function () {
         $(".doctor-image-container").css({ width: "240px" });
       }
     } else if (data.task == " updateProcedures") {
-      // let procedures = [];
-      // console.log(data.procedures);
-      // for (let item in data.procedures) {
-      //   procedures.push(data.procedures[item]);
-      // }
-      // $(".doctor-videos").remove();
-      // new Widget(Date.now(), {
-      //   className: "doctor-videos",
-      //   widgetType: "mesImages",
-      //   imageArr: procedures,
-      //   hidden: true
-      // }).createWidget();
+      let procedures = [];
+
+      for (let item in data.procedures) {
+        procedures.push(data.procedures[item]);
+      }
+      $(".procedure-videos").remove();
+      new Widget(Date.now(), {
+        className: "doctor-videos",
+        widgetType: "mesImages",
+        imageArr: procedures,
+        hidden: true
+      }).createWidget();
     }
   });
   $("body").on("click", ".doctor-img", function () {
-    console.log("clicked");
     if (playState.doctorSelected === null) {
       let key = $(this).attr("key");
       let name = $(this).attr("name");
@@ -410,7 +405,6 @@ $(function () {
     }
   });
   $("body").on("click", ".delete-item", function () {
-    console.log("click");
     let type = $(this).attr("type");
     $(this).closest("div").remove();
     if (type === "doctor") {
@@ -426,7 +420,6 @@ $(function () {
   $("body").on("click", ".g-slide", function () {
     let key = $(this).attr("key");
     let name = $(this).attr("name");
-    console.log(key);
 
     let alreadyExists = false;
     playState.videosSelected.filter((item) => {
@@ -434,9 +427,8 @@ $(function () {
         alreadyExists = true;
       }
     });
-    $(this).css("border", "5px solid black");
+    $(this).css("border", "2px solid #103E68");
     if (!alreadyExists) {
-      console.log("pushing");
       addToPlayList(key, "video");
       playState.videosSelected.push({ key, name });
     }
@@ -458,6 +450,14 @@ $(function () {
   $("body").on("click", ".video-list-item", function () {
     $(".video-list-item").css({ color: "black", textDecoration: "none" });
     $(this).css({ color: "#51b3d0", textDecoration: "underline" });
+  });
+  $(document).on("click", function () {
+    if (playState.screen === "overview") {
+      timeCounter = 30000;
+    }
+    if (playState.screen === "screensaver") {
+      toggleScreenSaver(false);
+    }
   });
 
   instantiate();

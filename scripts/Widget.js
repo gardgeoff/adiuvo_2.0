@@ -12,10 +12,8 @@ export default class Widget {
     this.videos = settings.videos;
     this.xPos = settings.left;
     this.yPos = settings.top;
-    this.movable = settings.movable;
-    this.resizable = settings.resizable;
     this.isImage = settings.isImage;
-    this.baseWidget = `<div class="${this.className}" id="${id}">Widget</div>`;
+    this.baseWidget = `<div class="${this.className}" id="${id}"></div>`;
     this.defaultSettings = {
       width: "120px",
       height: "120px",
@@ -99,7 +97,7 @@ export default class Widget {
 
           alignContent: "start"
         });
-      } else if (this.className === "doctor-videos") {
+      } else if (this.className === "procedure-videos") {
         let glideBase = `
         <div class="glide vid-select-glide">
           <div class="glide__track" data-glide-el="track">
@@ -112,7 +110,6 @@ export default class Widget {
             <button class="glide-arrow glide__arrow glide__arrow--right" data-glide-dir=">"><i class="fa fa-arrow-circle-right"></i></button>
           </div>
         </div>`;
-
         $("#" + this.id).append(glideBase);
         this.imageArr.map((item) => {
           let carouselSlide = `

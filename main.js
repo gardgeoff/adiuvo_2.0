@@ -16,7 +16,6 @@ const {
   get,
   child
 } = require("firebase/database");
-// const data = require("./scripts/directory.json");
 let mesDoctors = require("./scripts/mesDoctors.json");
 let mesVideos = require("./scripts/mesVideos.json");
 const settings = require("./applicationSettings.json");
@@ -39,32 +38,14 @@ let widgetRef = ref(db, `/${baseRef}/widgets`);
 let directoryRef = ref(db, `${baseRef}/directory`);
 let docRef = ref(db, `pi_${settings.piid}/mes/docs`);
 let procedureRef = ref(db, `pi_${settings.piid}/mes/procedures`);
-
 let restartRef = ref(db, `/${baseRef}/restart`);
+function updateClient() {}
 function updateMes() {
   set(docRef, mesDoctors);
   set(procedureRef, mesVideos);
 }
 updateMes();
-let win, toolbar;
-function createToolBar() {
-  if (toolbar == undefined) {
-    toolbar = new BrowserWindow({
-      width: 600,
-      height: 240,
-      frame: false,
-      title: "toolbar",
-      resizable: false,
-      autoHideMenuBar: true,
-      webPreferences: {
-        preload: path.join(__dirname, "./preload.js")
-      },
-      alwaysOnTop: true
-    });
-    toolbar.loadFile("toolbar.html");
-    toolbar.openDevTools();
-  }
-}
+let win;
 async function createWindow() {
   Menu.setApplicationMenu(
     Menu.buildFromTemplate([
@@ -79,6 +60,12 @@ async function createWindow() {
             }
           },
           {
+            label: "update",
+            click() {
+              updateClient();
+            }
+          },
+          {
             label: "quit",
             click() {
               app.quit();
@@ -89,12 +76,6 @@ async function createWindow() {
       {
         label: "edit",
         submenu: [
-          {
-            label: "toolbar",
-            click() {
-              createToolBar();
-            }
-          },
           {
             label: "dev tools",
             click() {
@@ -122,7 +103,6 @@ async function createWindow() {
       }
     ])
   );
-
   win = new BrowserWindow({
     width: 1920,
     height: 1080,
@@ -131,17 +111,14 @@ async function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       enableRemoteModule: false,
-
       preload: path.join(__dirname, "./preload.js")
     }
   });
 
   win.loadFile("index.html");
-  win.openDevTools();
 }
 app.whenReady().then(() => {
   createWindow();
-
   onValue(restartRef, (snap) => {
     let falseTrue = snap.val();
     if (falseTrue) {
@@ -212,9 +189,6 @@ app.whenReady().then(() => {
   });
 
   globalShortcut.register("f5", () => {
-    if (toolbar) {
-      toolbar.reload();
-    }
     win.reload();
   });
   globalShortcut.register("escape", () => {
@@ -222,7 +196,7 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on("boardStart", (e, args) => {
-    if (settings.boardType === "mes") {
+    if (settings.boardType === "mes" && settings.piid === 1) {
       win.webContents.send("fromMain", {
         doctors: mesDoctors,
         videos: mesVideos,
@@ -252,16 +226,3 @@ app.whenReady().then(() => {
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
-/*
-get(directoryref, snap => {
-  let map = snap.val();
-  let returnArr = []
-
-  map.map(item => {
-    let totalObj = {}
-    
-
-
-  })
-}) 
-*/
