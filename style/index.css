@@ -21,13 +21,6 @@ body {
   width: 1920px;
   height: 1080px;
 }
-.banner {
-  width: 1920px;
-  height: 480px;
-  position: relative;
-  top: 12%;
-}
-
 #render {
   position: fixed;
 }
@@ -36,21 +29,18 @@ body {
   width: 100%;
   height: 100%;
 }
-
 #splash-logo {
   display: none;
 }
 #verify-container {
   display: none;
   position: fixed;
-
   width: 100%;
   height: 100%;
 }
 #board-type-container {
   display: none;
   position: fixed;
-
   width: 100%;
   height: 100%;
 }
@@ -93,6 +83,7 @@ body {
   border-color: #09527f transparent #09527f transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
+
 @keyframes lds-dual-ring {
   0% {
     transform: rotate(0deg);

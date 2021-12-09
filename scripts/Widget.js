@@ -86,8 +86,6 @@ export default class Widget {
           let image = `<div style="margin: 10px" class="doctor-image-container"><img name="${item.name}" class="doctor-img" key=${item.key} src="https://img.youtube.com/vi/${item.key}/maxresdefault.jpg"/></div>`;
           totalImages += image;
         });
-
-        console.log(totalImages);
         $("#" + this.id).html(totalImages);
         $("#" + this.id).css({
           display: "flex",
@@ -102,7 +100,6 @@ export default class Widget {
         <div class="glide vid-select-glide">
           <div class="glide__track" data-glide-el="track">
             <ul class="big-carousel glide__slides">
-
             </ul>
           </div>
           <div class="glide-controls glide__arrows" data-glide-el="controls">

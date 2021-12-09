@@ -24,7 +24,6 @@ $(function () {
   }
   function loadVerify() {
     window.api.send("toMain", { request: "id" });
-
     stateManager.currentPage = "verify";
     $("#verify-container").css("display", "flex").hide().fadeIn("slow");
     window.api.receive("fromMain", (data) => {

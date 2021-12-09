@@ -1,12 +1,15 @@
 import Widget from "./Widget.js";
-
 $(function () {
   let playState = {
     doctorSelected: null,
     videosSelected: [],
-    screen: "overview"
+    currentVid: "",
+    screen: "overview",
+    hideAll: false
   };
+
   let interactCount = 0;
+  let currentVid;
   let xGrid = 16;
   let yGrid = 9;
   let gridOn = true;
@@ -20,11 +23,18 @@ $(function () {
       }
     }
   }
-  // knuth shuffle foundon stackoverflow
+  $(document).on("keydown", function (e) {
+    if (e.key === "k") {
+      console.log("heyo");
+      $(".html-5-video-player")
+        .removeClass("playing-mode")
+        .addClass("paused-mode");
+    }
+  });
+  // knuth shuffle
   function shuffle(array) {
     let currentIndex = array.length,
       randomIndex;
-
     // While there remain elements to shuffle...
     while (currentIndex != 0) {
       // Pick a remaining element...
@@ -42,34 +52,97 @@ $(function () {
   }
   function selectVideo(param) {
     let urlString = `https://www.youtube.com/embed/${param}`;
+    let width = "1320";
+    let height = "720";
+    if (playState.hideAll == true) {
+      width = "1920px";
+      height = "1080";
+    }
     let options =
-      "?modestbranding=1&rel=0&controls=0&autoplay=1&autohide=1&fs=0&";
+      "?modestbranding=1&rel=0&controls=0&autoplay=1&autohide=1&fs=0&enablejsapi=1";
     let iframeString = `<iframe
-    width="1320"
-    height="720"
+    width=${width}
+    height=${height}
+    allowfullscreen
+    class="iframe"
     src="${urlString}${options}"
     ></iframe>`;
+    playState.currentVid = param;
     $(".youtube").html(iframeString);
   }
-  function videoSelect() {
+  $(".v-full").on("click", function () {
+    let test = document.getElementsByTagName("iframe")[0];
+    if (playState.hideAll == false) {
+      $("iframe").css({
+        width: "1920px",
+        height: "1080px"
+      });
+      $(".youtube").css({
+        left: "0px",
+        top: "0px"
+      });
+      $(".video-controls").css({
+        right: "10px",
+        bottom: "10px"
+      });
+      $(".board-nav").hide();
+      $(".video-list").hide();
+      $(".reset").hide();
+      playState.hideAll = true;
+    } else if (playState.hideAll == true) {
+      $("iframe").css({
+        width: "1320px",
+        height: "720px"
+      });
+      $(".youtube").css({
+        left: "280px",
+        top: "30px"
+      });
+      $(".video-controls").css({
+        right: "320px",
+        bottom: "330px"
+      });
+      $(".board-nav").show();
+      $(".video-list").show();
+      $(".reset").show();
+      playState.hideAll = false;
+    }
+  });
+  $(".v-next").on("click", function () {
+    let currentVid = playState.currentVid;
+    console.log(currentVid);
+    let videos = playState.videosSelected;
+    let index = videos.findIndex((item) => {
+      if (item.key != undefined) {
+        return item.key == currentVid;
+      }
+    });
+
+    if (playState.videosSelected[index + 1].key != undefined) {
+      index++;
+    }
+    selectVideo(playState.videosSelected[index].key);
+  });
+  $(".v-prev").on("click", function () {
+    let currentVid = playState.currentVid;
+    let videos = playState.videosSelected;
+    let index = videos.findIndex((item) => {
+      if (item.key != undefined) {
+        return item.key == currentVid;
+      }
+    });
+    if (playState.videosSelected[index - 1].key != undefined) {
+      index--;
+    }
+    selectVideo(playState.videosSelected[index].key);
+  });
+  function procedureSelect() {
     $(".doctor-images").fadeOut("slow", function () {
       $(".procedure-videos").fadeIn("slow");
       $(".start").fadeIn();
     });
   }
-  function adjustLogo(direction) {
-    if (direction === "center") {
-      $(".mes-logo")
-        .css({
-          position: "fixed",
-          textAlign: "center",
-          top: "120px",
-          width: "300px",
-          right: "840px"
-        })
-        .fadeIn("slow");
-    }
-  }
+
   function overview() {
     playState.doctorSelected = null;
     playState.screen = "overview";
@@ -100,6 +173,8 @@ $(function () {
       });
       selectVideo(playState.videosSelected[0].key);
       $(".youtube").fadeIn("slow");
+      $(".video-controls").fadeIn("slow");
+      $(".mes-logo").fadeIn("slow");
     });
     $(".delete-item").remove();
   }
@@ -128,14 +203,11 @@ $(function () {
       stageMes(data);
     }
   });
-
-  let timeCounter = 30000;
-
+  let timeCounter = 5000;
   let timeId;
   function startTimer() {
     timeId = window.setTimeout(() => toggleScreenSaver(true), timeCounter);
   }
-
   function toggleScreenSaver(on) {
     if (on) {
       if (playState.screen === "overview") {
@@ -147,18 +219,60 @@ $(function () {
           },
           1000
         );
+        $(".top-images").animate(
+          {
+            top: "25px"
+          },
+          1000
+        );
+        $(".bottom-images").animate(
+          {
+            bottom: "25px"
+          },
+          1000
+        );
+        $(".banner").animate(
+          {
+            height: "480px",
+            top: "12%"
+          },
+          500
+        );
       }
     } else {
       playState.screen = "overview";
-      $(".screensaver").animate(
+
+      $(".banner").animate(
         {
-          opacity: 0
+          height: "0px",
+          top: "35%"
         },
-        1000,
+        500,
         function () {
-          $(".screensaver").css("z-index", -1);
+          $(".top-images").animate(
+            {
+              top: "-500px"
+            },
+            1000
+          );
+          $(".bottom-images").animate(
+            {
+              bottom: "-500px"
+            },
+            1000
+          );
+          $(".screensaver").animate(
+            {
+              opacity: 0
+            },
+            1000,
+            function () {
+              $(".screensaver").css("z-index", -1);
+            }
+          );
         }
       );
+
       startTimer();
     }
   }
@@ -288,6 +402,7 @@ $(function () {
         : $(".board-nav").append("<div class='empty'>");
     });
   }
+
   function addToPlayList(key, type) {
     $(".empty").append(
       `<div class="nav-entry">
@@ -304,6 +419,8 @@ $(function () {
     );
   }
   function reset() {
+    $(".video-controls").fadeOut("slow");
+    $(".mes-logo").fadeOut("slow");
     playState.screen = "overview";
     $(".reset").fadeOut("slow");
     $(".g-slide").css("border", "none");
@@ -320,6 +437,10 @@ $(function () {
     clearTimeout(timeId);
     startTimer();
   }
+  let slideCount = 0;
+  $(".fa-circle-arrow-right").on("click", function () {
+    $(this).attr("data-glide-dir", slideCount + 2);
+  });
   window.api.receive("fromDash", (data) => {
     if (data.task === "style") {
       let selectors = data.widgets;
@@ -400,7 +521,7 @@ $(function () {
       playState.doctorSelected = { key, name };
       playState.videosSelected.push({ key, name });
       playState.screen = "video-select";
-      videoSelect();
+      procedureSelect();
       addToPlayList(playState.doctorSelected.key, "doctor");
     }
   });
@@ -427,7 +548,7 @@ $(function () {
         alreadyExists = true;
       }
     });
-    $(this).css("border", "2px solid #103E68");
+    $(this).css("border", "4px solid #103E68");
     if (!alreadyExists) {
       addToPlayList(key, "video");
       playState.videosSelected.push({ key, name });
@@ -453,7 +574,8 @@ $(function () {
   });
   $(document).on("click", function () {
     if (playState.screen === "overview") {
-      timeCounter = 30000;
+      clearTimeout(timeId);
+      startTimer();
     }
     if (playState.screen === "screensaver") {
       toggleScreenSaver(false);

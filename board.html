@@ -16,7 +16,7 @@
     <script src="./scripts/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
     <script src="./scripts/jquery.ui.touch-punch.min.js"></script>
     <script src="./scripts/jquery.maphilight.min.js"></script>
-    <script type="module" src="./scripts/board.js"></script>
+  
     <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
     <link
       rel="stylesheet"
@@ -41,6 +41,13 @@
       </div>
       <div class="board-content">
         <div class="start">Start</div>
+        <div class="video-controls">
+          <button class="video-btn v-prev"><i class="fa fa-fast-backward"></i></button>
+          <button class="video-btn v-next"><i class="fa fa-fast-forward"></i></button>
+    
+          <button class="video-btn v-full"><i class="fa fa-expand"></i></button>
+        </div>
+
         <div class="youtube"></div>
         <div class="video-list">
           <h1>PLAYLIST</h1>
@@ -51,6 +58,7 @@
 
       <div class="board-nav"></div>
     </div>
+    <script type="module" src="./scripts/board.js"></script>
   </body>
 </html>
 

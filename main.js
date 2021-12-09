@@ -8,14 +8,7 @@ const {
 const path = require("path");
 const fs = require("fs");
 const { initializeApp } = require("firebase/app");
-const {
-  getDatabase,
-  set,
-  ref,
-  onValue,
-  get,
-  child
-} = require("firebase/database");
+const { getDatabase, set, ref, onValue } = require("firebase/database");
 let mesDoctors = require("./scripts/mesDoctors.json");
 let mesVideos = require("./scripts/mesVideos.json");
 const settings = require("./applicationSettings.json");
@@ -27,7 +20,6 @@ const firebaseConfig = {
   messagingSenderId: "332106134019",
   appId: "1:332106134019:web:b56c003653edf1c7ee5436"
 };
-
 // Initialize Firebase
 let registered;
 const fbApp = initializeApp(firebaseConfig);
@@ -126,7 +118,6 @@ app.whenReady().then(() => {
       app.exit();
     }
   });
-
   onValue(directoryRef, (snap) => {
     let objDir = snap.val();
     win.webContents.send("fromDash", {
@@ -172,9 +163,7 @@ app.whenReady().then(() => {
     for (let item in procedures) {
       tempArr.push(procedures[item]);
     }
-
     mesVideos = tempArr;
-
     fs.writeFile(
       "./scripts/mesVideos.json",
       JSON.stringify(mesVideos),
@@ -187,14 +176,12 @@ app.whenReady().then(() => {
       procedures: procedures
     });
   });
-
   globalShortcut.register("f5", () => {
     win.reload();
   });
   globalShortcut.register("escape", () => {
     win.setFullScreen(false);
   });
-
   ipcMain.on("boardStart", (e, args) => {
     if (settings.boardType === "mes" && settings.piid === 1) {
       win.webContents.send("fromMain", {
