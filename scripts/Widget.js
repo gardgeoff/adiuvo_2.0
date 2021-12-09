@@ -82,7 +82,7 @@ export default class Widget {
         let totalImages = "";
         let count = 1;
         this.imageArr.map((item) => {
-          console.log(item.name);
+          
           let image = `<div style="margin: 10px" class="doctor-image-container"><img name="${item.name}" class="doctor-img" key=${item.key} src="https://img.youtube.com/vi/${item.key}/maxresdefault.jpg"/></div>`;
           totalImages += image;
         });
