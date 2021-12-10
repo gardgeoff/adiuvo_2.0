@@ -7,6 +7,7 @@ const {
 } = require("electron");
 const path = require("path");
 const fs = require("fs");
+const shell = require("shelljs");
 const { initializeApp } = require("firebase/app");
 const { getDatabase, set, ref, onValue } = require("firebase/database");
 let mesDoctors = require("./scripts/mesDoctors.json");
@@ -31,10 +32,14 @@ let directoryRef = ref(db, `${baseRef}/directory`);
 let docRef = ref(db, `pi_${settings.piid}/mes/docs`);
 let procedureRef = ref(db, `pi_${settings.piid}/mes/procedures`);
 let restartRef = ref(db, `/${baseRef}/restart`);
+
 function updateClient() {}
 function updateMes() {
   set(docRef, mesDoctors);
   set(procedureRef, mesVideos);
+}
+function restartPi() {
+  shell.exec("./restart_pi.sh");
 }
 updateMes();
 let win;
@@ -117,6 +122,7 @@ app.whenReady().then(() => {
     if (falseTrue) {
       app.relaunch();
       app.exit();
+      //
     }
   });
   onValue(directoryRef, (snap) => {

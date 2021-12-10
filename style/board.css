@@ -83,6 +83,7 @@
   left: 280px;
 }
 .reset {
+  display: none;
   position: fixed;
   bottom: 330px;
   right: 50px;

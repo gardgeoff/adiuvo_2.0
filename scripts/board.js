@@ -1,15 +1,30 @@
 import Widget from "./Widget.js";
+function loadScript() {
+  if (typeof YT == "undefined" || typeof YT.Player == "undefined") {
+    var tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName("script")[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  }
+}
+
+function loadPlayer() {
+  window.onYouTubePlayerAPIReady = function () {
+    onYouTubePlayer();
+  };
+}
 $(function () {
+  loadScript();
   let playState = {
     doctorSelected: null,
     videosSelected: [],
-    currentVid: "",
+    currentVid: "FKdwndTViV0",
     screen: "overview",
     hideAll: false
   };
 
   let interactCount = 0;
-  let currentVid;
+
   let xGrid = 16;
   let yGrid = 9;
   let gridOn = true;
@@ -50,25 +65,118 @@ $(function () {
 
     return array;
   }
-  function selectVideo(param) {
-    let urlString = `https://www.youtube.com/embed/${param}`;
-    let width = "1320";
-    let height = "720";
-    if (playState.hideAll == true) {
-      width = "1920px";
-      height = "1080";
+  let player;
+  function nextVideo() {
+    let currentVid = playState.currentVid;
+    console.log(currentVid);
+    let videos = playState.videosSelected;
+    let index = videos.findIndex((item) => {
+      if (item.key != undefined) {
+        return item.key == currentVid;
+      }
+    });
+
+    if (playState.videosSelected[index + 1].key != undefined) {
+      index++;
     }
-    let options =
-      "?modestbranding=1&rel=0&controls=0&autoplay=1&autohide=1&fs=0&enablejsapi=1";
-    let iframeString = `<iframe
-    width=${width}
-    height=${height}
-    allowfullscreen
-    class="iframe"
-    src="${urlString}${options}"
-    ></iframe>`;
-    playState.currentVid = param;
-    $(".youtube").html(iframeString);
+    playState.currentVid = videos[index].key;
+    player.loadVideoById(videos[index].key);
+  }
+  function prevVideo() {
+    let currentVid = playState.currentVid;
+    let videos = playState.videosSelected;
+    let index = videos.findIndex((item) => {
+      if (item.key != undefined) {
+        return item.key == currentVid;
+      }
+    });
+    if (playState.videosSelected[index - 1].key != undefined) {
+      index--;
+    }
+    playState.currentVid = videos[index].key;
+    player.loadVideoById(playState.videosSelected[index].key);
+  }
+  function selectVideo(param) {
+    if (!player) {
+      if (playState.hideAll == true) {
+        width = "1920px";
+        height = "1080";
+      }
+
+      playState.currentVid = param;
+      if (player) {
+        console.log(player);
+        player.loadVideoById(param);
+      }
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player("player", {
+          width: 1320,
+          height: 720,
+          videoId: param,
+          playerVars: {
+            playsinline: 1,
+            controls: 0,
+            rel: 0
+          },
+          events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        $(".start").on("click", function () {
+          player.loadVideoById("FKdwndTViV0");
+        });
+        $(".reset").on("click", function () {
+          player.pauseVideo();
+        });
+        event.target.playVideo();
+        $(".v-prev").on("click", function () {
+          prevVideo();
+        });
+        $(".v-next").on("click", function () {
+          nextVideo();
+        });
+        $("body").on("click", ".logo-img, .video-list-item", function () {
+          console.log($(this).attr("key"));
+          if (playState.screen === "videoPlayer") {
+            let key = $(this).attr("key");
+            playState.currentVid = key;
+            console.log(key);
+            player.loadVideoById(key);
+          }
+        });
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.ENDED) {
+          let videos = playState.videosSelected;
+          let index = videos.findIndex((item) => {
+            if (item.key != undefined) {
+              return item.key == playState.currentVid;
+            }
+          });
+          if (playState.videosSelected[index + 1] != undefined) {
+            playState.currentVid = playState.videosSelected[index + 1].key;
+            console.log("new video");
+            console.log(index);
+            player.loadVideoById(playState.videosSelected[index + 1].key);
+          }
+        }
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }
+
+      onYouTubeIframeAPIReady();
+    }
   }
   $(".v-full").on("click", function () {
     let test = document.getElementsByTagName("iframe")[0];
@@ -108,34 +216,7 @@ $(function () {
       playState.hideAll = false;
     }
   });
-  $(".v-next").on("click", function () {
-    let currentVid = playState.currentVid;
-    console.log(currentVid);
-    let videos = playState.videosSelected;
-    let index = videos.findIndex((item) => {
-      if (item.key != undefined) {
-        return item.key == currentVid;
-      }
-    });
 
-    if (playState.videosSelected[index + 1].key != undefined) {
-      index++;
-    }
-    selectVideo(playState.videosSelected[index].key);
-  });
-  $(".v-prev").on("click", function () {
-    let currentVid = playState.currentVid;
-    let videos = playState.videosSelected;
-    let index = videos.findIndex((item) => {
-      if (item.key != undefined) {
-        return item.key == currentVid;
-      }
-    });
-    if (playState.videosSelected[index - 1].key != undefined) {
-      index--;
-    }
-    selectVideo(playState.videosSelected[index].key);
-  });
   function procedureSelect() {
     $(".doctor-images").fadeOut("slow", function () {
       $(".procedure-videos").fadeIn("slow");
@@ -173,6 +254,7 @@ $(function () {
       });
       selectVideo(playState.videosSelected[0].key);
       $(".youtube").fadeIn("slow");
+      $(".reset").fadeIn("slow");
       $(".video-controls").fadeIn("slow");
       $(".mes-logo").fadeIn("slow");
     });
@@ -203,7 +285,7 @@ $(function () {
       stageMes(data);
     }
   });
-  let timeCounter = 5000;
+  let timeCounter = 30000;
   let timeId;
   function startTimer() {
     timeId = window.setTimeout(() => toggleScreenSaver(true), timeCounter);
@@ -234,7 +316,7 @@ $(function () {
         $(".banner").animate(
           {
             height: "480px",
-            top: "12%"
+            top: "13.5%"
           },
           500
         );
@@ -426,6 +508,7 @@ $(function () {
     $(".g-slide").css("border", "none");
     $(".video-list").fadeOut("slow");
     $(".video-list").empty();
+
     $(".youtube").fadeOut("slow", function () {
       playState.doctorSelected = null;
       playState.videosSelected = [];
@@ -496,6 +579,9 @@ $(function () {
         widgetType: "mesImages",
         imageArr: docs
       }).createWidget();
+      if (playState.screen != "overview") {
+        $(".doctor-images").hide();
+      }
       if (docs.length > 24) {
         $(".doctor-image-container").css({ width: "240px" });
       }
@@ -560,18 +646,11 @@ $(function () {
   $(".reset").on("click", function () {
     reset();
   });
-  $("body").on("click", ".logo-img, .video-list-item", function () {
-    console.log($(this).attr("key"));
-    if (playState.screen === "videoPlayer") {
-      let key = $(this).attr("key");
-      console.log(key);
-      selectVideo(key);
-    }
-  });
-  $("body").on("click", ".video-list-item", function () {
-    $(".video-list-item").css({ color: "black", textDecoration: "none" });
-    $(this).css({ color: "#51b3d0", textDecoration: "underline" });
-  });
+
+  // $("body").on("click", ".video-list-item", function () {
+  //   $(".video-list-item").css({ color: "black", textDecoration: "none" });
+  //   $(this).css({ color: "#51b3d0", textDecoration: "underline" });
+  // });
   $(document).on("click", function () {
     if (playState.screen === "overview") {
       clearTimeout(timeId);
