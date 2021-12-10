@@ -115,8 +115,11 @@ $(function () {
           videoId: param,
           playerVars: {
             playsinline: 1,
-            controls: 0,
-            rel: 0
+            controls: 1,
+            rel: 0,
+            showinfo: 0,
+            modestbranding: 1,
+            showsearch: 0
           },
           events: {
             onReady: onPlayerReady,
