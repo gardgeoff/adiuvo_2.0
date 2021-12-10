@@ -171,6 +171,8 @@ $(function () {
             console.log("new video");
             console.log(index);
             player.loadVideoById(playState.videosSelected[index + 1].key);
+          } else {
+            player.loadVideoById("FKdwndTViV0");
           }
         }
       }
