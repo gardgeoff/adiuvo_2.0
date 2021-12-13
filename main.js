@@ -9,7 +9,7 @@ const path = require("path");
 const fs = require("fs");
 const { exec } = require("child_process");
 const { initializeApp } = require("firebase/app");
-const { getDatabase, set, ref, onValue } = require("firebase/database");
+const { getDatabase, set, ref, onValue, get } = require("firebase/database");
 let mesDoctors = require("./scripts/mesDoctors.json");
 let mesVideos = require("./scripts/mesVideos.json");
 const settings = require("./applicationSettings.json");
@@ -36,8 +36,11 @@ let restartPiRef = ref(db, `/${baseRef}/restartPi`);
 
 function updateClient() {}
 function updateMes() {
-  set(docRef, mesDoctors);
-  set(procedureRef, mesVideos);
+  if (!registered) {
+    console.log("getting called");
+    set(docRef, mesDoctors);
+    set(procedureRef, mesVideos);
+  }
 }
 function restart(which) {
   if (which === "app") {

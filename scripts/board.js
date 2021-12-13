@@ -653,7 +653,6 @@ $(function () {
   $(".reset").on("click", function () {
     reset();
   });
-
   // $("body").on("click", ".video-list-item", function () {
   //   $(".video-list-item").css({ color: "black", textDecoration: "none" });
   //   $(this).css({ color: "#51b3d0", textDecoration: "underline" });
@@ -667,6 +666,5 @@ $(function () {
       toggleScreenSaver(false);
     }
   });
-
   instantiate();
 });
