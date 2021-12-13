@@ -1,35 +1,192 @@
 .grid {
   width: 120px;
   height: 120px;
-  outline: 0.5px solid rgb(97, 97, 97);
 }
-*::selection {
+.start {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: #51b3d0;
+  color: white;
+  font-size: 1.75rem;
+  display: none;
+  padding: 0.5em 1.25em;
+}
+.start:hover {
+  cursor: pointer;
+}
+
+.bottom-images {
+  display: Flex;
+  width: 1920px;
+  justify-content: center;
+  position: absolute;
+  bottom: -500px;
+}
+.mes-logo {
+  display: none;
+  position: fixed;
+  left: 10px;
+  top: 30px;
+}
+.glide-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 63%;
+  left: 45%;
+}
+.glide-arrow {
   background: none;
+  color: rgb(16, 62, 104);
+  outline: none;
+  border: none;
+  font-size: 5rem;
+}
+.fa-arrow-circle-right {
+  margin-left: 50px;
+}
+.fa-arrow-circle-left {
+  margin-right: 50px;
 }
 #render {
-  background: rgb(44, 44, 44);
+  background: none;
+  background-image: url("../resources/images/v02g2245.png");
+  background-size: cover;
+  background-position: center center;
 }
-.grid:hover {
+.video-controls {
+  display: none;
+  z-index: 1000;
+  border-radius: 4px;
+  position: fixed;
+  right: 320px;
+  bottom: 330px;
+  background: rgba(0, 0, 0, 0.699);
+  padding: 1em 0.75em;
+}
+.video-btn {
+  background: none;
+  border: none;
+  margin: 0px 20px;
+}
+.video-btn > i {
+  margin: 0;
+  font-size: 1.75rem;
+  color: white;
+}
+.youtube {
+  display: none;
+  position: fixed;
+  top: 30px;
+  left: 280px;
+}
+.reset {
+  display: none;
+  position: fixed;
+  bottom: 330px;
+  right: 50px;
+  width: 220px;
+  background: #f7f7f7;
+  border-radius: 4px;
+  font-size: 30px;
+  color: rgb(16, 62, 104);
+}
+
+.video-list-item {
+  color: rgb(16, 62, 104);
+  font-size: 28px;
+}
+.video-list-item:hover {
+  cursor: pointer;
+}
+.video-list {
+  position: fixed;
+  display: none;
+  flex-direction: column;
+  right: 60px;
+  top: 30px;
+  font-family: "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 .grid-row {
   display: flex;
 }
+.doctor-image-container {
+  width: 280px;
+  box-shadow: 5px 5px 5px #3a3a3a63;
+  display: inline-block;
+}
+.doctor-images {
+  position: fixed;
+  left: 50px;
+  top: 60px;
+  display: flex;
+  justify-content: start;
+}
+.doctor-img {
+  width: 100%;
+}
+.logo-img {
+  height: 200px;
+}
 .board-content {
   width: 1920px;
   height: 960px;
-
-  background: rgba(255, 255, 255, 0.151);
   position: fixed;
 }
-.board-nav {
-  position: fixed;
+.procedure-videos {
+  display: flex;
+  position: relative;
+  top: 30%;
+}
+.glide-image {
+  width: 100%;
+}
+.delete-item {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 2rem;
+  color: white;
+  padding: 3px 5px;
+  font-weight: 300;
+  border: 3px solid rgb(16, 62, 104);
+  background: rgb(16, 62, 104);
+}
+.delete-item:hover {
+  cursor: pointer;
+}
+.nav-item,
+.logo-img {
+  margin: 0px 5px;
+  border: 4px solid rgb(16, 62, 104);
+}
+.empty {
+  display: flex;
+}
+.nav-entry {
+  display: inline-block;
+  position: relative;
+}
+.vid-select-glide {
+  width: 100%;
+  left: -3%;
+}
 
+.board-nav {
+  display: flex;
+  position: fixed;
   bottom: 0px;
   width: 1920px;
-  height: 120px;
-  background: #09527f;
+  height: 200px;
+  overflow-x: scroll;
+  overflow-y: hidden;
   color: white;
   font-size: 40px;
+}
+*::-webkit-scrollbar {
+  display: none;
 }
 .ui-icon-gripsmall-diagonal-se {
   border-right: 2px solid white;
@@ -39,8 +196,45 @@
 .stylable:hover {
   background: rgba(32, 189, 32, 0.562) !important;
 }
+.top-images {
+  position: relative;
+  top: -500px;
+}
+.insta {
+  height: 180px;
+}
+.center-me {
+  text-align: center;
+}
+.award {
+  height: 150px;
+}
+.banner {
+  width: 1920px;
+  height: 0px;
+  top: 35%;
+  position: relative;
+}
+.screensaver {
+  opacity: 0;
+  overflow: hidden;
+  width: 1920px;
+  height: 1080px;
+  position: fixed;
+  background: url("../resources/images/v02g2245.png");
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
 ul,
 li {
   margin: 0;
+  padding: 0;
+}
+ul {
   padding: 5px;
+}
+
+.directory-item {
+  display: flex;
 }

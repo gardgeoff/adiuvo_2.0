@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
-  
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,8 +14,12 @@
     "electron": "^15.3.0"
   },
   "dependencies": {
+    "@glidejs/glide": "^3.5.2",
     "browserify": "^17.0.0",
+    "electron-packager": "^15.4.0",
     "firebase": "^9.2.0",
-    "path": "^0.12.7"
+    "glide": "^0.2.0",
+    "path": "^0.12.7",
+    "shelljs": "^0.8.4"
   }
 }

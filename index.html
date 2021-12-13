@@ -19,7 +19,7 @@
     <script src="./scripts/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
     <script src="./scripts/jquery.ui.touch-punch.min.js"></script>
     <script src="./scripts/jquery.maphilight.min.js"></script>
-    <script src="./scripts/renderer.js"></script>
+    <script src="./scripts/splash.js"></script>
     <link rel="stylesheet" href="./style/reset.css" />
     <script src="https://use.fontawesome.com/f1f09572a8.js"></script>
     <link
@@ -46,71 +46,11 @@
         id="verify-container"
       >
         <img class="mb-3 logo-sm" src="resources/images/AdiuvoLogo.png" />
-        <h3 class="">Enter Your Pi ID Number</h3>
-        <input id="pi-id" class="mt-5 custom-input w-25" />
-        <button id="verify-btn" class="mt-3 btn btn-blue">
-          <i class="fa fa-arrow-right"></i>
-        </button>
+        <h2 class="">Register your board online at</h2>
+        <h4>http://adiuvo-dash.herokuapp.com/register</h4>
+        <h4>Your display ID: <span id="board-id"></span></h4>
       </div>
-      <div
-        class="justify-content-center align-items-center flex-column"
-        id="board-type-container"
-      >
-        <div class="row pb-4">
-          <div class="col-md-6">
-            <div class="card text-center">
-              <div class="card-header">Salon Board</div>
-              <div class="card-body">
-                <h5 class="card-title">Create a salon board</h5>
-                <p class="card-text">
-                  Lorem Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ipsum
-                </p>
-                <button id="salon-board" class="board-type btn btn-blue">
-                  Select
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card text-center">
-              <div class="card-header">More Boards</div>
-              <div class="card-body">
-                <h5 class="card-title">Not yet Available</h5>
-                <p class="card-text">
-                  Lorem Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ipsum
-                </p>
-                <a href="#" class="btn btn-secondary">Select</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card text-center">
-              <div class="card-header">More Boards</div>
-              <div class="card-body">
-                <h5 class="card-title">Not yet Available</h5>
-                <p class="card-text">
-                  Lorem Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ipsum
-                </p>
-                <a href="#" class="btn btn-secondary">Select</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card text-center">
-              <div class="card-header">More Boards</div>
-              <div class="card-body">
-                <h5 class="card-title">Not yet Available</h5>
-                <p class="card-text">
-                  Lorem Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ipsum
-                </p>
-                <a disabled href="#" class="btn btn-secondary">Select</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <div class="display-render"></div>
     </div>
   </body>
