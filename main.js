@@ -7,7 +7,7 @@ const {
 } = require("electron");
 const path = require("path");
 const fs = require("fs");
-const shell = require("shelljs");
+const { exec } = require("child_processes");
 const { initializeApp } = require("firebase/app");
 const { getDatabase, set, ref, onValue } = require("firebase/database");
 let mesDoctors = require("./scripts/mesDoctors.json");
@@ -40,7 +40,14 @@ function updateMes() {
 }
 function restartPi() {
   console.log("restarting");
-  if (process.patform === "linux") shell.exec("./restart_app.sh");
+  if (process.patform === "linux") {
+    app.quit();
+    exec("~/adiuvo_2.0/restart_app.sh", function (error) {
+      if (error) {
+        console.log(error);
+      }
+    });
+  }
 }
 updateMes();
 let win;
