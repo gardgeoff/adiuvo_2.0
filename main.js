@@ -32,7 +32,7 @@ let directoryRef = ref(db, `${baseRef}/directory`);
 let docRef = ref(db, `pi_${settings.piid}/mes/docs`);
 let procedureRef = ref(db, `pi_${settings.piid}/mes/procedures`);
 let restartAppRef = ref(db, `/${baseRef}/restartApp`);
-let restartPiRef = ref(db, `/${baseRef}/restartApp`);
+let restartPiRef = ref(db, `/${baseRef}/restartPi`);
 
 function updateClient() {}
 function updateMes() {
