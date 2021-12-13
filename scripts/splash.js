@@ -9,7 +9,6 @@ $(function () {
     // }, 500);
     render(state);
   }
-
   function loadSplash() {
     stateManager.currentPage = "splash";
     $("#splash-logo").fadeIn("slow", function () {

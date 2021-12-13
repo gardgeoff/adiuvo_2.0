@@ -122,7 +122,6 @@ app.whenReady().then(() => {
     if (falseTrue) {
       app.relaunch();
       app.exit();
-      //
     }
   });
   onValue(directoryRef, (snap) => {
