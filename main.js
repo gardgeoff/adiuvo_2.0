@@ -41,6 +41,7 @@ function updateMes() {
 function restartPi() {
   console.log("restarting");
   if (process.patform === "linux") {
+    console.log("linux machine restarting");
     app.quit();
     exec("~/adiuvo_2.0/restart_app.sh", function (error) {
       if (error) {
