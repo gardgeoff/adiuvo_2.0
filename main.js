@@ -40,6 +40,7 @@ function updateMes() {
 }
 function restartPi() {
   console.log("restarting");
+  console.log(process.platform);
   if (process.patform === "linux") {
     console.log("linux machine restarting");
     app.quit();
