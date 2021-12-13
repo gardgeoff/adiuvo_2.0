@@ -39,6 +39,7 @@ function updateMes() {
   set(procedureRef, mesVideos);
 }
 function restartPi() {
+  console.log("restarting");
   if (process.patform === "linux") shell.exec("./restart_app.sh");
 }
 updateMes();

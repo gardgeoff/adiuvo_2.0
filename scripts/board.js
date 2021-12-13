@@ -360,6 +360,7 @@ $(function () {
           );
         }
       );
+      $(".doctor-images").fadeIn("slow");
 
       startTimer();
     }
