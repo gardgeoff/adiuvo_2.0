@@ -39,17 +39,14 @@ function updateMes() {
   set(procedureRef, mesVideos);
 }
 function restartPi() {
-  console.log("restarting");
   console.log(process.platform);
-  if (process.patform === "linux") {
-    console.log("linux machine restarting");
-    app.quit();
-    exec("~/adiuvo_2.0/restart_app.sh", function (error) {
-      if (error) {
-        console.log(error);
-      }
-    });
-  }
+  console.log("linux machine restarting");
+  app.quit();
+  exec("~/adiuvo_2.0/restart_app.sh", function (error) {
+    if (error) {
+      console.log(error);
+    }
+  });
 }
 updateMes();
 let win;
