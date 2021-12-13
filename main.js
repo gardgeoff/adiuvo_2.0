@@ -58,7 +58,7 @@ function restart(which) {
     });
   }
 }
-updateMes();
+
 let win;
 async function createWindow() {
   Menu.setApplicationMenu(
@@ -156,6 +156,7 @@ app.whenReady().then(() => {
   onValue(registerRef, (snap) => {
     let values = snap.val();
     registered = values;
+    updateMes();
     win.webContents.send("fromMain", {
       id: settings.piid,
       registered: registered
