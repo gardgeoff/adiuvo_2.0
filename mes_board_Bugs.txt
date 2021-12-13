@@ -1,3 +1,0 @@
-video still playing after reset
-doctor overlay after x seconds in video
-Green valley award

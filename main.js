@@ -31,22 +31,29 @@ let widgetRef = ref(db, `/${baseRef}/widgets`);
 let directoryRef = ref(db, `${baseRef}/directory`);
 let docRef = ref(db, `pi_${settings.piid}/mes/docs`);
 let procedureRef = ref(db, `pi_${settings.piid}/mes/procedures`);
-let restartRef = ref(db, `/${baseRef}/restart`);
+let restartAppRef = ref(db, `/${baseRef}/restartApp`);
+let restartPiRef = ref(db, `/${baseRef}/restartApp`);
 
 function updateClient() {}
 function updateMes() {
   set(docRef, mesDoctors);
   set(procedureRef, mesVideos);
 }
-function restartPi() {
-  console.log(process.platform);
-  console.log("linux machine restarting");
-  app.quit();
-  exec("~/adiuvo_2.0/restart_app.sh", function (error) {
-    if (error) {
-      console.log(error);
-    }
-  });
+function restart(which) {
+  if (which === "app") {
+    app.quit();
+    exec("~/adiuvo_2.0/restart_app.sh", function (error) {
+      if (error) {
+        console.log(error);
+      }
+    });
+  } else if (which === "pi") {
+    exec("~/adiuvo_2.0/restart_pi.sh", function (error) {
+      if (error) {
+        console.log(error);
+      }
+    });
+  }
 }
 updateMes();
 let win;
@@ -124,10 +131,16 @@ async function createWindow() {
 }
 app.whenReady().then(() => {
   createWindow();
-  onValue(restartRef, (snap) => {
+  onValue(restartAppRef, (snap) => {
     let falseTrue = snap.val();
     if (falseTrue) {
-      restartPi();
+      restart("app");
+    }
+  });
+  onValue(restartPiRef, (snap) => {
+    let falseTrue = snap.val();
+    if (falseTrue) {
+      restart("pi");
     }
   });
   onValue(directoryRef, (snap) => {
