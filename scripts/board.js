@@ -13,6 +13,7 @@ function loadPlayer() {
     onYouTubePlayer();
   };
 }
+
 $(function () {
   loadScript();
   let playState = {

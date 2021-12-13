@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo restart -r now
+sudo shutdown -r now

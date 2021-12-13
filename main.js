@@ -163,6 +163,7 @@ app.whenReady().then(() => {
       docs: docs
     });
   });
+  console.log(process.platform);
   onValue(procedureRef, (snap) => {
     let procedures = snap.val();
     let tempArr = [];
