@@ -7,7 +7,7 @@ const {
 } = require("electron");
 const path = require("path");
 const fs = require("fs");
-const { exec } = require("child_processes");
+const { exec } = require("child_process");
 const { initializeApp } = require("firebase/app");
 const { getDatabase, set, ref, onValue } = require("firebase/database");
 let mesDoctors = require("./scripts/mesDoctors.json");
