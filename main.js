@@ -39,7 +39,7 @@ function updateMes() {
   set(procedureRef, mesVideos);
 }
 function restartPi() {
-  shell.exec("./restart_pi.sh");
+  if (process.patform === "linux") shell.exec("./restart_app.sh");
 }
 updateMes();
 let win;
@@ -120,8 +120,7 @@ app.whenReady().then(() => {
   onValue(restartRef, (snap) => {
     let falseTrue = snap.val();
     if (falseTrue) {
-      app.relaunch();
-      app.exit();
+      restartPi();
     }
   });
   onValue(directoryRef, (snap) => {
@@ -163,7 +162,7 @@ app.whenReady().then(() => {
       docs: docs
     });
   });
-  console.log(process.platform);
+
   onValue(procedureRef, (snap) => {
     let procedures = snap.val();
     let tempArr = [];
